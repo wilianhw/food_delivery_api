@@ -24,6 +24,17 @@ public class EstadoController {
         this.cadastroEstado = cadastroEstado;
     }
 
+    @GetMapping("/{estadoId}")
+    public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
+        try {
+            Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
+
+            return ResponseEntity.ok(estado);
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public List<Estado> listar() {
         return estadoRepository.findAll();
