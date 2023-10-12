@@ -6,8 +6,6 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CadastroRestaurante {
 
@@ -20,15 +18,9 @@ public class CadastroRestaurante {
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
-        Optional<Restaurante> optionalRestaurante = restauranteRepository.findById(restauranteId);
-
-        if (optionalRestaurante.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format(
-                    "Restaurante de código %d não foi encontrado", restauranteId
-            ));
-        }
-
-        return optionalRestaurante.get();
+        return restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(
+                        "Restaurante de código %d não foi encontrado", restauranteId)));
     }
 
     public Restaurante salvar(Restaurante restaurante) {

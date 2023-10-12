@@ -19,13 +19,10 @@ public class CadastroCozinha {
     }
 
     public Cozinha buscarOuFalhar(Long cozinhaId) {
-        Optional<Cozinha> optionalCozinha = cozinhaRepository.findById(cozinhaId);
-        if (optionalCozinha.isEmpty())
-            throw new EntidadeNaoEncontradaException(String.format(
-                    "Cozinha de código %d não encontrada", cozinhaId
-            ));
-
-        return optionalCozinha.get();
+        return cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(
+                "Cozinha de código %d não encontrada", cozinhaId
+        )));
     }
 
     public Cozinha salvar(Cozinha cozinha) {

@@ -20,15 +20,9 @@ public class CadastroCidade {
     }
 
     public Cidade buscarOuFalhar(Long cidadeId) {
-        Optional<Cidade> optionalCidade = cidadeRepository.findById(cidadeId);
-
-        if (optionalCidade.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cidade de código %d", cidadeId)
-            );
-        }
-
-        return optionalCidade.get();
+        return cidadeRepository.findById(cidadeId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cidade de código %d", cidadeId)));
     }
 
     public Cidade salvar(Cidade cidade) {

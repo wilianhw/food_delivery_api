@@ -19,15 +19,9 @@ public class CadastroEstado {
     }
 
     public Estado buscarOuFalhar(Long restauranteId) {
-        Optional<Estado> optionalEstado = estadoRepository.findById(restauranteId);
-
-        if (optionalEstado.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Estado com código %d não encontrado", restauranteId)
-            );
-        }
-
-        return optionalEstado.get();
+        return estadoRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Estado com código %d não encontrado", restauranteId)));
     }
 
     public Estado salvar(Estado estado) {
