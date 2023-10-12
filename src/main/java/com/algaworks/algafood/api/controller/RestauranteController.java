@@ -28,6 +28,11 @@ public class RestauranteController {
         return restauranteRepository.findAll();
     }
 
+    @GetMapping("/por-nome")
+    public Restaurante consultarPorNome(String nome, Long cozinhaId) {
+        return restauranteRepository.consultarPorNome(nome, cozinhaId);
+    }
+
     @GetMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> buscarOuFalhar(@PathVariable Long restauranteId) {
         try {
