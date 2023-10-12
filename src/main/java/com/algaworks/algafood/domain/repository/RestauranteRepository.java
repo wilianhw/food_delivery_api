@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
     @Query("from Restaurante where nome like %:nome% and cozinha.id = :id")
     Restaurante consultarPorNome(String nome, @Param("id") Long cozinhaId);
+
+    Restaurante consultarPorQueryNomeada(String nome, @Param("id") Long cozinhaId);
 }
