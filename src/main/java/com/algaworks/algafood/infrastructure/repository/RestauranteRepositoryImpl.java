@@ -4,9 +4,12 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CustomizedRestauranteRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -19,13 +22,30 @@ public class RestauranteRepositoryImpl implements CustomizedRestauranteRepositor
                                   BigDecimal taxaFreteInicial,
                                   BigDecimal taxaFreteFinal
     ) {
-        var jpql = "from Restaurante where nome like :nome " +
-                "and taxaFrete between :taxaFreteInicial and :taxaFreteFinal";
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("from Restaurante where 0 = 0 ");
 
-        return manager.createQuery(jpql, Restaurante.class)
-                .setParameter("nome", "%" + nome + "%")
-                .setParameter("taxaFreteInicial", taxaFreteInicial)
-                .setParameter("taxaFreteFinal", taxaFreteFinal)
-                .getResultList();
+        HashMap<String, Object> parametros = new HashMap<>();
+
+        if (StringUtils.hasLength(nome)) {
+            jpql.append("and nome like :nome ");
+            parametros.put("nome", "%" + nome + "%");
+        }
+
+        if (taxaFreteInicial != null) {
+            jpql.append("and taxaFrete >= :taxaFreteInicial ");
+            parametros.put("taxaFreteInicial", taxaFreteInicial);
+        }
+
+        if (taxaFreteFinal != null) {
+            jpql.append("and taxaFrete <= :taxaFreteFinal");
+            parametros.put("taxaFreteFinal", taxaFreteFinal);
+        }
+
+        TypedQuery<Restaurante> query = manager.createQuery(jpql.toString(), Restaurante.class);
+
+        parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
+
+        return query.getResultList();
     }
 }
