@@ -45,7 +45,16 @@ public class RestauranteController {
             BigDecimal taxaFreteInicial,
             BigDecimal taxaFreteFinal
     ) {
-        return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+        return restauranteRepository.findWithJPQL(nome, taxaFreteInicial, taxaFreteFinal);
+    }
+
+    @GetMapping("/por-nome-e-frete-criteria")
+    public List<Restaurante> consultarPorNomeTaxaFreteCriteria(
+            String nome,
+            BigDecimal taxaFreteInicial,
+            BigDecimal taxaFreteFinal
+    ) {
+        return restauranteRepository.findWithCriteria(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
     @GetMapping("/{restauranteId}")
