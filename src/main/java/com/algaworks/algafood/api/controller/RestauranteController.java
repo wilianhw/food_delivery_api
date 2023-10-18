@@ -62,7 +62,7 @@ public class RestauranteController {
 
     @GetMapping("/por-nome-e-frete-sdj")
     public List<Restaurante> consultarPorNomeTaxaFreteSDJ(String nome) {
-        return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+        return restauranteRepository.findWithFreeFrete(nome);
     }
 
     @GetMapping("/{restauranteId}")

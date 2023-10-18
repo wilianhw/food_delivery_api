@@ -8,4 +8,5 @@ import java.util.List;
 public interface CustomizedRestauranteRepository {
     List<Restaurante> findWithJPQL(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
     List<Restaurante> findWithCriteria(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+    List<Restaurante> findWithFreeFrete(String nome);
 }
