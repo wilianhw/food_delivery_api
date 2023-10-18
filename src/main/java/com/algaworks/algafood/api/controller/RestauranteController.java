@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comFreteGratis;
+import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comNomeSemelhante;
+
 @RestController
 @RequestMapping("/restaurante")
 public class RestauranteController {
@@ -55,6 +58,11 @@ public class RestauranteController {
             BigDecimal taxaFreteFinal
     ) {
         return restauranteRepository.findWithCriteria(nome, taxaFreteInicial, taxaFreteFinal);
+    }
+
+    @GetMapping("/por-nome-e-frete-sdj")
+    public List<Restaurante> consultarPorNomeTaxaFreteSDJ(String nome) {
+        return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
     }
 
     @GetMapping("/{restauranteId}")
