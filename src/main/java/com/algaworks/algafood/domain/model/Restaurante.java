@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,10 @@ public class Restaurante {
     @ManyToOne
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
+
+    @JsonIgnore
+    @Embedded
+    private Endereco endereco;
 
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
