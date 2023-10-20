@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,8 @@ public class Restaurante {
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
 }

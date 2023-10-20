@@ -1,11 +1,10 @@
 package com.algaworks.algafood.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -18,4 +17,7 @@ public class Cozinha {
     private Long id;
 
     private String nome;
+
+    @OneToMany(mappedBy = "cozinha")
+    private List<Restaurante> restauranteList;
 }
