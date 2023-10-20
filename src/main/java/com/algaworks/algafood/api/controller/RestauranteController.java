@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comFreteGratis;
-import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comNomeSemelhante;
-
 @RestController
 @RequestMapping("/restaurante")
 public class RestauranteController {
@@ -95,7 +92,7 @@ public class RestauranteController {
         try {
             Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-            BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+            BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento");
 
             cadastroRestaurante.salvar(restauranteAtual);
 
