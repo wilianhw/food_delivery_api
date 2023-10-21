@@ -17,6 +17,11 @@ INSERT INTO algafood.restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep
 INSERT INTO algafood.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (2, 'Japonês', 10, 1, current_timestamp, current_timestamp);
 INSERT INTO algafood.restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) VALUES (3, 'Portugues', 12, 2, current_timestamp, current_timestamp);
 
+-- Produto
+INSERT INTO algafood.produto(id, nome, descricao, preco, ativo, restaurante_id) VALUES(1, 'Batata', 'Doce', 1.99, true, 1);
+INSERT INTO algafood.produto(id, nome, descricao, preco, ativo, restaurante_id) VALUES(2, 'Doce', 'Abobora', 1.99, true, 1);
+INSERT INTO algafood.produto(id, nome, descricao, preco, ativo, restaurante_id) VALUES(3, 'Caramelo', 'Salgado', 1.99, true, 2);
+
 -- Forma de pagamento
 INSERT INTO algafood.forma_pagamento (id, descricao) VALUES (1, 'Crédito');
 INSERT INTO algafood.forma_pagamento (id, descricao) VALUES (2, 'Debito');
