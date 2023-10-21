@@ -27,7 +27,6 @@ public class Restaurante {
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
