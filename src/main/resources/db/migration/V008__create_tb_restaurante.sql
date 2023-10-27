@@ -5,13 +5,13 @@ CREATE TABLE restaurante (
 	taxa_frete decimal(9, 2),
 	data_cadastro timestamp NOT NULL,
 	data_atualizacao timestamp NOT NULL,
-	endereco_cidade_id bigserial,
+
+	endereco_cidade_id BIGINT UNIQUE,
 	endereco_cep varchar(255),
-	endereco_logradouro varchar(9),
-	logradouro varchar(100),
-	numero varchar(20),
-	complemento varchar(60),
-	bairro varchar(60),
+	endereco_logradouro varchar(100),
+	endereco_numero varchar(20),
+	endereco_complemento varchar(60),
+	endereco_bairro varchar(60),
 
 	PRIMARY KEY (id)
 );
