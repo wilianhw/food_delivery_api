@@ -1,6 +1,6 @@
 CREATE TABLE usuario_grupo (
-	usuario_id bigserial NOT NULL,
-	grupo_id bigserial NOT NULL,
+	usuario_id bigint NOT NULL,
+	grupo_id bigint NOT NULL,
 
 	PRIMARY KEY (usuario_id, grupo_id)
 );

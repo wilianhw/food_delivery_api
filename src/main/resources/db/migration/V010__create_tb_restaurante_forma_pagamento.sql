@@ -1,6 +1,6 @@
 CREATE TABLE restaurante_forma_pagamento (
-	restaurante_id bigserial NOT NULL,
-	forma_pagamento_id bigserial NOT NULL,
+	restaurante_id bigint NOT NULL,
+	forma_pagamento_id bigint NOT NULL,
 
 	PRIMARY KEY (restaurante_id, forma_pagamento_id)
 );

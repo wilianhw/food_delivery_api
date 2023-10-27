@@ -6,7 +6,7 @@ CREATE TABLE restaurante (
 	data_cadastro timestamp NOT NULL,
 	data_atualizacao timestamp NOT NULL,
 
-	endereco_cidade_id BIGINT UNIQUE,
+	endereco_cidade_id bigint,
 	endereco_cep varchar(255),
 	endereco_logradouro varchar(100),
 	endereco_numero varchar(20),

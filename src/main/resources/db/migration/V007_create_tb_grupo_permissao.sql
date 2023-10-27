@@ -1,6 +1,6 @@
 CREATE TABLE grupo_permissao (
-	grupo_id bigserial NOT NULL,
-	permissao_id bigserial NOT NULL,
+	grupo_id bigint NOT NULL,
+	permissao_id bigint NOT NULL,
 
 	PRIMARY KEY (grupo_id, permissao_id)
 );

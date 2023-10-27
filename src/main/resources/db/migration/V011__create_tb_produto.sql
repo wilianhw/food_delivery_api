@@ -1,6 +1,6 @@
 CREATE TABLE produto (
 	id bigserial NOT NULL,
-	restaurante_id bigserial NOT NULL,
+	restaurante_id bigint NOT NULL,
 	nome varchar(80) NOT NULL,
 	descricao varchar(80) NOT NULL,
 	preco decimal(10, 2),
