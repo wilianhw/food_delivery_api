@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -27,9 +28,14 @@ public class CadastroRestaurante {
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
 
-        restaurante.setCozinha(cozinha);
+        try {
+            Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+            restaurante.setCozinha(cozinha);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+
 
         return restauranteRepository.save(restaurante);
     }
