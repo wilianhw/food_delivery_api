@@ -1,7 +1,8 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
@@ -23,19 +24,16 @@ public class CadastroCidade {
 
     public Cidade buscarOuFalhar(Long cidadeId) {
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe cidade de código %d", cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
 
         Optional<Estado> optionalEstado = estadoRepository.findById(estadoId);
-        if (optionalEstado.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe estado de código %d", estadoId)
-            );
-        }
+
+        if (optionalEstado.isEmpty()) throw new EstadoNaoEncontradoException(estadoId);
+
         return cidadeRepository.save(cidade);
     }
 

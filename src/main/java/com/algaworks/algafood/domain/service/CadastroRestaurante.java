@@ -1,10 +1,11 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -13,29 +14,25 @@ import org.springframework.stereotype.Service;
 public class CadastroRestaurante {
 
     private final RestauranteRepository restauranteRepository;
-    private final CadastroCozinha cadastroCozinha;
+    private final CozinhaRepository cozinhaRepository;
 
-    public CadastroRestaurante(RestauranteRepository restauranteRepository, CadastroCozinha cadastroCozinha) {
+    public CadastroRestaurante(RestauranteRepository restauranteRepository, CozinhaRepository cozinhaRepository) {
         this.restauranteRepository = restauranteRepository;
-        this.cadastroCozinha = cadastroCozinha;
+        this.cozinhaRepository = cozinhaRepository;
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(
-                        "Restaurante de código %d não foi encontrado", restauranteId)));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
 
-        try {
-            Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
-            restaurante.setCozinha(cozinha);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
 
+        restaurante.setCozinha(cozinha);
 
         return restauranteRepository.save(restaurante);
     }
