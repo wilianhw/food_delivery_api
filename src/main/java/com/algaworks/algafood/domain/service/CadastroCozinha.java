@@ -7,8 +7,6 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CadastroCozinha {
 
@@ -21,8 +19,8 @@ public class CadastroCozinha {
     public Cozinha buscarOuFalhar(Long cozinhaId) {
         return cozinhaRepository.findById(cozinhaId)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(
-                "Cozinha de código %d não encontrada", cozinhaId
-        )));
+                        "Cozinha de código %d não encontrada", cozinhaId
+                )));
     }
 
     public Cozinha salvar(Cozinha cozinha) {

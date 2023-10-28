@@ -7,8 +7,6 @@ import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CadastroEstado {
 
@@ -28,12 +26,14 @@ public class CadastroEstado {
         return estadoRepository.save(estado);
     }
 
-    public void apagar(Estado estado) {
+    public void apagar(Long estadoId) {
+        buscarOuFalhar(estadoId);
+
         try {
-            estadoRepository.delete(estado);
+            estadoRepository.deleteById(estadoId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
-                    String.format("Estado de código %d não pode ser removido pois está em uso", estado.getId())
+                    String.format("Estado de código %d não pode ser removido pois está em uso", estadoId)
             );
         }
     }

@@ -1,10 +1,12 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -37,7 +39,14 @@ public class CadastroCidade {
         return cidadeRepository.save(cidade);
     }
 
-    public void apagar(Cidade cidade) {
-        cidadeRepository.delete(cidade);
+    public void apagar(Long cidadeId) {
+        buscarOuFalhar(cidadeId);
+        try {
+            cidadeRepository.deleteById(cidadeId);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format("Cidade de código %d não pode ser apagado pois está em uso", cidadeId)
+            );
+        }
     }
 }
