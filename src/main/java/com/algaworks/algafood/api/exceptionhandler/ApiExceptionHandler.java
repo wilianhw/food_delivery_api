@@ -17,12 +17,12 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -126,11 +126,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         BindingResult bindingResult = ex.getBindingResult();
 
-        List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream().map(fieldError -> {
-            String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+        List<Problem.Object> problemObjects = bindingResult.getAllErrors().stream().map(objectError -> {
+            String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
 
-            return Problem.Field.builder()
-                    .nome(fieldError.getField())
+            String name = objectError.getObjectName();
+
+            if (objectError instanceof FieldError fieldError)
+                name = fieldError.getField();
+
+            return Problem.Object.builder()
+                    .nome(name)
                     .userMessage(message)
                     .build();
         }).collect(Collectors.toList());
@@ -140,7 +145,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 ProblemType.PARAMETRO_INVALIDO,
                 detail)
                 .userMessage(detail)
-                .fields(problemFields)
+                .objects(problemObjects)
                 .build();
 
         return handleExceptionInternal(ex, problem, headers, HttpStatus.BAD_REQUEST, request);
