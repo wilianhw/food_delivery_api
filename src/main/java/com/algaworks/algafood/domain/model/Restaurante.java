@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.context.annotation.Lazy;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,22 +38,19 @@ public class Restaurante {
     @Column(nullable = false)
     private String nome;
 
-    @TaxaFrete
-    @Multiplo(numero = 5)
+    // @TaxaFrete
+    // @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-    @JsonIgnore
-    @CreationTimestamp
     @Column(nullable = false)
-    private LocalDateTime dataCadastro;
+    @CreationTimestamp
+    private LocalDateTime dataCadastro = LocalDateTime.now();
 
-    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
     @Embedded
     private Endereco endereco;
 
