@@ -2,8 +2,10 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.api.model.RestauranteModel;
+import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestaurante;
@@ -74,8 +76,10 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteModel cadastrar(@RequestBody @Valid Restaurante restaurante) {
+    public RestauranteModel cadastrar(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
+            Restaurante restaurante = toDomainObject(restauranteInput);
+
             return toModel(cadastroRestaurante.salvar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
@@ -85,11 +89,11 @@ public class RestauranteController {
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(
             @PathVariable Long restauranteId,
-            @RequestBody Restaurante restaurante
+            @RequestBody RestauranteInput restauranteInput
     ) {
         Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "restaurante", "produtos");
+        BeanUtils.copyProperties(toDomainObject(restauranteInput), restauranteAtual, "id", "formasPagamento", "restaurante", "produtos");
 
         try {
             return toModel(cadastroRestaurante.salvar(restauranteAtual));
@@ -119,5 +123,18 @@ public class RestauranteController {
 
     private List<RestauranteModel> toCollectionModel(List<Restaurante> restaurantes) {
         return restaurantes.stream().map(this::toModel).toList();
+    }
+
+    private Restaurante toDomainObject(RestauranteInput restauranteInput) {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setNome(restauranteInput.getNome());
+        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
+
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(restauranteInput.getCozinha().getId());
+
+        restaurante.setCozinha(cozinha);
+
+        return restaurante;
     }
 }

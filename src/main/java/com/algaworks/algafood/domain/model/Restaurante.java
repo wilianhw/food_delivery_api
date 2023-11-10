@@ -34,12 +34,9 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 
-    // @TaxaFrete
-    // @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
@@ -54,8 +51,6 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
-    @NotNull
-    @Valid
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
