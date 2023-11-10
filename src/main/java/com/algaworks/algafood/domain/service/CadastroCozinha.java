@@ -6,6 +6,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroCozinha {
@@ -21,10 +22,12 @@ public class CadastroCozinha {
                 .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
     }
 
+    @Transactional
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
 
+    @Transactional
     public void remover(Long cozinhaId) {
         Cozinha cozinha = buscarOuFalhar(cozinhaId);
 

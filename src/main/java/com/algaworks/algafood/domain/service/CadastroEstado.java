@@ -6,6 +6,7 @@ import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroEstado {
@@ -21,10 +22,12 @@ public class CadastroEstado {
                 .orElseThrow(() -> new EstadoNaoEncontradoException(restauranteId));
     }
 
+    @Transactional
     public Estado salvar(Estado estado) {
         return estadoRepository.save(estado);
     }
 
+    @Transactional
     public void apagar(Long estadoId) {
         buscarOuFalhar(estadoId);
 

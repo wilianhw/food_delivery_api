@@ -9,6 +9,7 @@ import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class CadastroCidade {
                 .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
+    @Transactional
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
 
@@ -37,6 +39,7 @@ public class CadastroCidade {
         return cidadeRepository.save(cidade);
     }
 
+    @Transactional
     public void apagar(Long cidadeId) {
         buscarOuFalhar(cidadeId);
         try {
