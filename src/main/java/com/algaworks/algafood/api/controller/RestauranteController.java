@@ -98,7 +98,7 @@ public class RestauranteController {
     ) {
         Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-        BeanUtils.copyProperties(restauranteInputDisassembler.toDomainObject(restauranteInput), restauranteAtual, "id", "formasPagamento", "restaurante", "produtos");
+        restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
         try {
             return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
