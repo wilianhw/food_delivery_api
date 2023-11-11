@@ -44,6 +44,7 @@ public class CadastroRestaurante {
         buscarOuFalhar(restauranteId);
         try {
             restauranteRepository.deleteById(restauranteId);
+            restauranteRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format("Restaurante de código %d não pode ser apagado pois está em uso", restauranteId)

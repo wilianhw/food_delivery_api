@@ -33,6 +33,7 @@ public class CadastroCozinha {
 
         try {
             cozinhaRepository.delete(cozinha);
+            cozinhaRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format(
                     "Cozinha de código %d não pode ser removida pois está em uso", cozinhaId

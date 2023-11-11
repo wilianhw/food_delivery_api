@@ -44,6 +44,7 @@ public class CadastroCidade {
         buscarOuFalhar(cidadeId);
         try {
             cidadeRepository.deleteById(cidadeId);
+            cidadeRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format("Cidade de código %d não pode ser apagado pois está em uso", cidadeId)

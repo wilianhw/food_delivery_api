@@ -30,9 +30,9 @@ public class CadastroEstado {
     @Transactional
     public void apagar(Long estadoId) {
         buscarOuFalhar(estadoId);
-
         try {
             estadoRepository.deleteById(estadoId);
+            estadoRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format("Estado de código %d não pode ser removido pois está em uso", estadoId)
