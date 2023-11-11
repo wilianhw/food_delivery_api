@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinha;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CozinhaModel criar(@RequestBody CozinhaInput cozinhaInput) {
+    public CozinhaModel criar(@RequestBody @Valid CozinhaInput cozinhaInput) {
         Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
 
         return cozinhaModelAssembler.toModel(cadastroCozinha.salvar(cozinha));
@@ -49,7 +50,7 @@ public class CozinhaController {
     @PutMapping("/{cozinhaId}")
     public CozinhaModel atualizar(
             @PathVariable Long cozinhaId,
-            @RequestBody CozinhaInput cozinhaInput) {
+            @RequestBody @Valid CozinhaInput cozinhaInput) {
         Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
 
         cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
