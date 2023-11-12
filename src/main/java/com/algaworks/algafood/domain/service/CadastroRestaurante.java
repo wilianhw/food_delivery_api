@@ -51,4 +51,18 @@ public class CadastroRestaurante {
             );
         }
     }
+
+    @Transactional
+    public void ativar(Long restauranteId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        restaurante.ativar();
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        restaurante.inativar();
+    }
 }
