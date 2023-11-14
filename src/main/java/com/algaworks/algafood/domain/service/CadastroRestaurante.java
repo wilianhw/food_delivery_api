@@ -1,11 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CadastroRestaurante {
 
     private final RestauranteRepository restauranteRepository;
-    private final CozinhaRepository cozinhaRepository;
+    private final CadastroCozinha cadastroCozinha;
+    private final CadastroCidade cadastroCidade;
 
-    public CadastroRestaurante(RestauranteRepository restauranteRepository, CozinhaRepository cozinhaRepository) {
+    public CadastroRestaurante(RestauranteRepository restauranteRepository, CadastroCozinha cadastroCozinha, CadastroCidade cadastroCidade) {
         this.restauranteRepository = restauranteRepository;
-        this.cozinhaRepository = cozinhaRepository;
+        this.cadastroCozinha = cadastroCozinha;
+        this.cadastroCidade = cadastroCidade;
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
@@ -30,11 +31,13 @@ public class CadastroRestaurante {
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
+        Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
-        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
-                .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
+        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+        Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
+        restaurante.getEndereco().setCidade(cidade);
 
         return restauranteRepository.save(restaurante);
     }
