@@ -5,6 +5,7 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -20,7 +21,7 @@ public class FormaPagamentoModelAssembler {
         return modelMapper.map(formaPagamento, FormaPagamentoModel.class);
     }
 
-    public List<FormaPagamentoModel> toCollectionModel(List<FormaPagamento> formasPagamento) {
+    public List<FormaPagamentoModel> toCollectionModel(Collection<FormaPagamento> formasPagamento) {
         return formasPagamento.stream().map(this::toModel).toList();
     }
 }

@@ -10,8 +10,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ValorZeroIncluiDescricao(
         valorField = "taxaFrete",
@@ -55,7 +56,7 @@ public class Restaurante {
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-    public List<FormaPagamento> formasPamento = new ArrayList<>();
+    public Set<FormaPagamento> formasPamento = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
@@ -67,5 +68,13 @@ public class Restaurante {
 
     public void inativar() {
         setAtivo(false);
+    }
+
+    public void desassociarFormaPagamento(FormaPagamento formaPagamento) {
+        formasPamento.remove(formaPagamento);
+    }
+
+    public void associarFormaPagamento(FormaPagamento formaPagamento) {
+        formasPamento.add(formaPagamento);
     }
 }
