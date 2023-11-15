@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -32,7 +32,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioModel> listar() {
+    public Collection<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 

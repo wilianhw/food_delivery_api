@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @ValorZeroIncluiDescricao(
@@ -62,6 +61,12 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
     public Set<FormaPagamento> formasPamento = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "restaurante_usuario_responsavel",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private Set<Usuario> usuarios = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     public Set<Produto> produtos;
@@ -88,5 +93,13 @@ public class Restaurante {
 
     public void fechar() {
         setAberto(false);
+    }
+
+    public void adicionarUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+    }
+
+    public void removerUsuario(Usuario usuario) {
+        usuarios.remove(usuario);
     }
 }

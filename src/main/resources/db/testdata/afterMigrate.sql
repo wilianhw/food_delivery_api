@@ -12,6 +12,7 @@ DELETE FROM grupo_permissao;
 DELETE FROM usuario;
 DELETE FROM usuario_grupo;
 DELETE FROM permissao;
+DELETE FROM restaurante_usuario_responsavel;
 
 SET session_replication_role = 'origin';
 
@@ -101,3 +102,13 @@ VALUES
 (3, 3),
 (4, 4);
 
+-- Restaurante usuário
+INSERT INTO algafood.restaurante_usuario_responsavel
+(restaurante_id, usuario_id)
+VALUES
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 1),
+(3, 2),
+(3, 3);

@@ -2,10 +2,7 @@ package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.FormaPagamento;
-import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.model.*;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -18,12 +15,14 @@ public class CadastroRestaurante {
     private final CadastroCozinha cadastroCozinha;
     private final CadastroCidade cadastroCidade;
     private final CadastroFormaPagamento cadastroFormaPagamento;
+    private final CadastroUsuario cadastroUsuario;
 
-    public CadastroRestaurante(RestauranteRepository restauranteRepository, CadastroCozinha cadastroCozinha, CadastroCidade cadastroCidade, CadastroFormaPagamento cadastroFormaPagamento) {
+    public CadastroRestaurante(RestauranteRepository restauranteRepository, CadastroCozinha cadastroCozinha, CadastroCidade cadastroCidade, CadastroFormaPagamento cadastroFormaPagamento, CadastroUsuario cadastroUsuario) {
         this.restauranteRepository = restauranteRepository;
         this.cadastroCozinha = cadastroCozinha;
         this.cadastroCidade = cadastroCidade;
         this.cadastroFormaPagamento = cadastroFormaPagamento;
+        this.cadastroUsuario = cadastroUsuario;
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
@@ -102,5 +101,23 @@ public class CadastroRestaurante {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
         restaurante.inativar();
+    }
+
+    @Transactional
+    public void associarUsuario(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarUsuario(usuario);
+    }
+
+    @Transactional
+    public void desassociarUsuario(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.removerUsuario(usuario);
     }
 }
