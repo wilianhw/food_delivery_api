@@ -14,7 +14,6 @@ DELETE FROM permissao;
 
 SET session_replication_role = 'origin';
 
-SELECT setval(pg_get_serial_sequence('grupo', 'id'), 1);
 SELECT setval(pg_get_serial_sequence('usuario', 'id'), 1);
 
 -- Estado
@@ -51,10 +50,17 @@ INSERT INTO forma_pagamento (id, descricao) VALUES (1, 'Crédito');
 INSERT INTO forma_pagamento (id, descricao) VALUES (2, 'Debito');
 SELECT setval(pg_get_serial_sequence('forma_pagamento', 'id'), 2);
 
+-- Grupo
+INSERT INTO grupo (id, nome) VALUES (1, 'Gerente');
+INSERT INTO grupo (id, nome) VALUES (2, 'Vendedor');
+INSERT INTO grupo (id, nome) VALUES (3, 'Secretária');
+INSERT INTO grupo (id, nome) VALUES (4, 'Cadastrador');
+SELECT setval(pg_get_serial_sequence('grupo', 'id'), 4);
+
 -- Permissão
 INSERT INTO permissao (id, nome, descricao) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 INSERT INTO permissao (id, nome, descricao) VALUES (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
-SELECT setval(pg_get_serial_sequence('permissao', 'id'), 2);
+SELECT setval(pg_get_serial_sequence('permissao', 'id'), 3);
 
 -- Restaurante forma pagamento
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(1, 1);
