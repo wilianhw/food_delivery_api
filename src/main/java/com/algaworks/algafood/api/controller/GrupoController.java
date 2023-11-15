@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/grupos")
@@ -30,7 +30,7 @@ public class GrupoController {
     }
 
     @GetMapping
-    public List<GrupoModel> listar() {
+    public Collection<GrupoModel> listar() {
         return grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
     }
 

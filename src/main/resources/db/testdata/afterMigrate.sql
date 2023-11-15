@@ -87,3 +87,17 @@ INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES
 (3, 'José Souza', 'jose.aux@algafood.com', '123', current_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', current_timestamp);
 SELECT setval(pg_get_serial_sequence('usuario', 'id'), 4);
+
+--Usuário grupo
+INSERT INTO usuario_grupo
+(usuario_id, grupo_id)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(3, 2),
+(3, 3),
+(4, 4);
+

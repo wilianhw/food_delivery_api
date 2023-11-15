@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.UsuarioEmUsoException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class CadastroUsuario {
 
     private final UsuarioRepository usuarioRepository;
+    private final CadastroGrupo cadastroGrupo;
 
-    public CadastroUsuario(UsuarioRepository usuarioRepository) {
+    public CadastroUsuario(UsuarioRepository usuarioRepository, CadastroGrupo cadastroGrupo) {
         this.usuarioRepository = usuarioRepository;
+        this.cadastroGrupo = cadastroGrupo;
     }
 
     public Usuario buscarOuFalhar(Long usuarioId) {
@@ -57,5 +60,23 @@ public class CadastroUsuario {
         }
 
         usuarioAtual.setSenha(novaSenha);
+    }
+
+    @Transactional
+    public void associarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscarOuFalhar(usuarioId);
+
+        Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+
+        usuario.adicionarGrupo(grupo);
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscarOuFalhar(usuarioId);
+
+        Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+
+        usuario.removerGrupo(grupo);
     }
 }

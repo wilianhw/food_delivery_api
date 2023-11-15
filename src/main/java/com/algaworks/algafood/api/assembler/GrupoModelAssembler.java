@@ -5,7 +5,7 @@ import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collection;
 
 @Component
 public class GrupoModelAssembler {
@@ -20,7 +20,7 @@ public class GrupoModelAssembler {
         return modelMapper.map(grupo, GrupoModel.class);
     }
 
-    public List<GrupoModel> toCollectionModel(List<Grupo> grupos) {
+    public Collection<GrupoModel> toCollectionModel(Collection<Grupo> grupos) {
         return grupos.stream().map(this::toModel).toList();
     }
 }
