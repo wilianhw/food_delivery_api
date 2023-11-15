@@ -14,8 +14,6 @@ DELETE FROM permissao;
 
 SET session_replication_role = 'origin';
 
-SELECT setval(pg_get_serial_sequence('usuario', 'id'), 1);
-
 -- Estado
 INSERT INTO estado (id, nome) VALUES (1, 'Minas Gerais');
 INSERT INTO estado (id, nome) VALUES (2, 'São Paulo');
@@ -68,3 +66,11 @@ INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VAL
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(3, 1);
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(1, 2);
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(3, 2);
+
+-- Usuario
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES
+(1, 'João da Silva', 'joao.ger@algafood.com', '123', current_timestamp),
+(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', current_timestamp),
+(3, 'José Souza', 'jose.aux@algafood.com', '123', current_timestamp),
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', current_timestamp);
+SELECT setval(pg_get_serial_sequence('usuario', 'id'), 4);

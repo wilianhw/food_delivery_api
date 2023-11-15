@@ -3,7 +3,7 @@ CREATE TABLE usuario (
 	nome varchar(80) NOT NULL,
 	email varchar(255) NOT NULL,
 	senha varchar(255) NOT NULL,
-	dataCadastro timestamp NOT NULL,
+	data_cadastro timestamp NOT NULL,
 
 	PRIMARY KEY (id)
 );
