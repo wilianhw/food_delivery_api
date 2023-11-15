@@ -60,7 +60,7 @@ public class Restaurante {
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
-    public List<Produto> produtos;
+    public Set<Produto> produtos;
 
     public void ativar() {
         setAtivo(true);
