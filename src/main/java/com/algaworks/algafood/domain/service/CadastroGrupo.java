@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.exception.GrupoEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CadastroGrupo {
 
     private final GrupoRepository grupoRepository;
+    private final CadastroPermissaoService cadastroPermissaoService;
 
-    public CadastroGrupo(GrupoRepository grupoRepository) {
+    public CadastroGrupo(GrupoRepository grupoRepository, CadastroPermissaoService cadastroPermissaoService) {
         this.grupoRepository = grupoRepository;
+        this.cadastroPermissaoService = cadastroPermissaoService;
     }
 
     public Grupo buscarOuFalhar(Long grupoId) {
@@ -38,4 +41,21 @@ public class CadastroGrupo {
         }
     }
 
+    @Transactional
+    public void associar(Long grupoId, Long permissaoId) {
+        Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+
+        Grupo grupo = buscarOuFalhar(grupoId);
+
+        grupo.associarPermissao(permissao);
+    }
+
+    @Transactional
+    public void desassociar(Long grupoId, Long permissaoId) {
+        Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+
+        Grupo grupo = buscarOuFalhar(grupoId);
+
+        grupo.desassociarPermissao(permissao);
+    }
 }

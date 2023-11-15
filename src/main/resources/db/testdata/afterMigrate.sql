@@ -8,6 +8,7 @@ DELETE FROM grupo;
 DELETE FROM produto;
 DELETE FROM restaurante;
 DELETE FROM restaurante_forma_pagamento;
+DELETE FROM grupo_permissao;
 DELETE FROM usuario;
 DELETE FROM usuario_grupo;
 DELETE FROM permissao;
@@ -59,6 +60,18 @@ SELECT setval(pg_get_serial_sequence('grupo', 'id'), 4);
 INSERT INTO permissao (id, nome, descricao) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 INSERT INTO permissao (id, nome, descricao) VALUES (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 SELECT setval(pg_get_serial_sequence('permissao', 'id'), 3);
+
+-- Grupo permissao
+INSERT INTO grupo_permissao
+(grupo_id, permissao_id)
+VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 2),
+(4, 1);
 
 -- Restaurante forma pagamento
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(1, 1);
