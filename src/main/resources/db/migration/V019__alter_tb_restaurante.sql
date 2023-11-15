@@ -1,0 +1,2 @@
+ALTER TABLE restaurante ADD COLUMN aberto boolean NOT NULL DEFAULT TRUE;
+ALTER TABLE restaurante ALTER COLUMN aberto DROP DEFAULT;

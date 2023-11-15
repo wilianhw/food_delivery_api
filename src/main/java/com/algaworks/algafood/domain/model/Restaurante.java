@@ -46,7 +46,11 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
+    @Column(nullable = false)
     private Boolean ativo = Boolean.TRUE;
+
+    @Column(nullable = false)
+    private Boolean aberto;
 
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
@@ -76,5 +80,13 @@ public class Restaurante {
 
     public void associarFormaPagamento(FormaPagamento formaPagamento) {
         formasPamento.add(formaPagamento);
+    }
+
+    public void abrir() {
+        setAberto(true);
+    }
+
+    public void fechar() {
+        setAberto(false);
     }
 }

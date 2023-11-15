@@ -32,9 +32,9 @@ INSERT INTO cozinha (id, nome) VALUES (3, 'Japonesa');
 SELECT setval(pg_get_serial_sequence('cozinha', 'id'), 3);
 
 -- Restaurante
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id, data_cadastro, data_atualizacao) VALUES (1, 'Italiano', 9.0, 1, true, '37212-000', 'Logradouro', '10', 'casa', 'centro', 1, current_timestamp, current_timestamp);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, data_cadastro, data_atualizacao, endereco_cidade_id) VALUES (2, 'Japonês', 10, 1, true, current_timestamp, current_timestamp, null);
-INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, data_cadastro, data_atualizacao, endereco_cidade_id) VALUES (3, 'Portugues', 12, 2, false, current_timestamp, current_timestamp, null);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, aberto, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id, data_cadastro, data_atualizacao) VALUES (1, 'Italiano', 9.0, 1, true, true, '37212-000', 'Logradouro', '10', 'casa', 'centro', 1, current_timestamp, current_timestamp);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, aberto, data_cadastro, data_atualizacao, endereco_cidade_id) VALUES (2, 'Japonês', 10, 1, true, true, current_timestamp, current_timestamp, null);
+INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, ativo, aberto, data_cadastro, data_atualizacao, endereco_cidade_id) VALUES (3, 'Portugues', 12, 2, false, false, current_timestamp, current_timestamp, null);
 SELECT setval(pg_get_serial_sequence('restaurante', 'id'), 3);
 
 -- Produto
