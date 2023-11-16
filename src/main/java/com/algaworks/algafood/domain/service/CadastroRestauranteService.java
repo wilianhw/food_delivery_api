@@ -8,6 +8,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CadastroRestauranteService {
 
@@ -65,6 +67,23 @@ public class CadastroRestauranteService {
     }
 
     @Transactional
+    public void ativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        restaurante.inativar();
+    }
+
+    @Transactional
+    public void inativar(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
+    }
+
+    @Transactional
     public void desassociar(Long restauranteId, Long formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
@@ -94,13 +113,6 @@ public class CadastroRestauranteService {
         FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
         restaurante.associarFormaPagamento(formaPagamento);
-    }
-
-    @Transactional
-    public void inativar(Long restauranteId) {
-        Restaurante restaurante = buscarOuFalhar(restauranteId);
-
-        restaurante.inativar();
     }
 
     @Transactional
