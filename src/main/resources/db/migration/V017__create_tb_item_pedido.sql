@@ -5,7 +5,7 @@ CREATE TABLE item_pedido (
 	quantidade int NOT NULL,
 	preco_unitario decimal(10, 2) NOT NULL,
 	preco_total decimal(10, 2) NOT NULL,
-	observacao varchar(255) NOT NULL,
+	observacao varchar(255),
 
 	PRIMARY KEY (id)
 );

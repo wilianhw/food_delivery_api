@@ -5,7 +5,7 @@ CREATE TABLE pedido (
 	valor_total decimal(10, 2) NOT NULL,
 
 	restaurante_id bigint NOT NULL,
-	usuario_id bigint NOT NULL,
+	usuario_cliente_id bigint NOT NULL,
 	forma_pagamento_id bigint NOT NULL,
 
 	endereco_cidade_id bigint not null,
@@ -25,6 +25,6 @@ CREATE TABLE pedido (
 
 	CONSTRAINT fk_pedido_endereco_cidade FOREIGN KEY (endereco_cidade_id) REFERENCES cidade (id),
 	CONSTRAINT fk_pedido_restaurante FOREIGN KEY (restaurante_id) REFERENCES restaurante (id),
-	CONSTRAINT fk_usuario FOREIGN KEY (usuario_id) REFERENCES usuario (id),
+	CONSTRAINT fk_usuario_cliente FOREIGN KEY (usuario_cliente_id) REFERENCES usuario (id),
 	CONSTRAINT fk_forma_pagamento FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento (id)
 );

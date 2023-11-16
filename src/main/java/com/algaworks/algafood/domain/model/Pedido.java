@@ -32,7 +32,8 @@ public class Pedido {
     @Embedded
     private Endereco endereco;
 
-    private StatusPedido status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status = StatusPedido.CRIADO;
 
     @CreationTimestamp
     private LocalDateTime dataCriacao;

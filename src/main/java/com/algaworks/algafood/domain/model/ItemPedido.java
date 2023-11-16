@@ -25,7 +25,7 @@ public class ItemPedido {
     @Column(nullable = false)
     private BigDecimal precoTotal;
 
-    private String descricao;
+    private String observacao;
 
     @ManyToOne
     @JoinColumn(nullable = false)
