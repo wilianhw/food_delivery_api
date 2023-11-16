@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
+import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.CadastroPedidoService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +18,20 @@ import java.util.List;
 public class PedidoController {
 
     private final PedidoModelAssembler pedidoModelAssembler;
+    private final PedidoResumoModelAssembler pedidoResumoModelAssembler;
     private final PedidoRepository pedidoRepository;
     private final CadastroPedidoService cadastroPedidoService;
 
-    public PedidoController(PedidoModelAssembler pedidoModelAssembler, PedidoRepository pedidoRepository, CadastroPedidoService cadastroPedidoService) {
+    public PedidoController(PedidoModelAssembler pedidoModelAssembler, PedidoResumoModelAssembler pedidoResumoModelAssembler, PedidoRepository pedidoRepository, CadastroPedidoService cadastroPedidoService) {
         this.pedidoModelAssembler = pedidoModelAssembler;
+        this.pedidoResumoModelAssembler = pedidoResumoModelAssembler;
         this.pedidoRepository = pedidoRepository;
         this.cadastroPedidoService = cadastroPedidoService;
     }
 
     @GetMapping
-    public List<PedidoModel> listar() {
-        return pedidoModelAssembler.toCollectionModel(pedidoRepository.findAll());
+    public List<PedidoResumoModel> listar() {
+        return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll());
     }
 
     @GetMapping("/{pedidoId}")
