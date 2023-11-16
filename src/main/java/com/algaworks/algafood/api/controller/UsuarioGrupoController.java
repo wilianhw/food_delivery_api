@@ -3,7 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
 import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.domain.model.Usuario;
-import com.algaworks.algafood.domain.service.CadastroUsuario;
+import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +14,16 @@ import java.util.Collection;
 public class UsuarioGrupoController {
 
     private final GrupoModelAssembler grupoModelAssembler;
-    private final CadastroUsuario cadastroUsuario;
+    private final CadastroUsuarioService cadastroUsuarioService;
 
-    public UsuarioGrupoController(GrupoModelAssembler grupoModelAssembler, CadastroUsuario cadastroUsuario) {
+    public UsuarioGrupoController(GrupoModelAssembler grupoModelAssembler, CadastroUsuarioService cadastroUsuarioService) {
         this.grupoModelAssembler = grupoModelAssembler;
-        this.cadastroUsuario = cadastroUsuario;
+        this.cadastroUsuarioService = cadastroUsuarioService;
     }
 
     @GetMapping
     public Collection<GrupoModel> listar(@PathVariable Long usuarioId) {
-        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+        Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 
         return grupoModelAssembler.toCollectionModel(usuario.getGrupos());
     }
@@ -33,7 +33,7 @@ public class UsuarioGrupoController {
     public void associarGrupo(
             @PathVariable Long usuarioId,
             @PathVariable Long grupoId) {
-        cadastroUsuario.associarGrupo(usuarioId, grupoId);
+        cadastroUsuarioService.associarGrupo(usuarioId, grupoId);
     }
 
     @DeleteMapping("/{grupoId}")
@@ -41,6 +41,6 @@ public class UsuarioGrupoController {
     public void desassociarGrupo(
             @PathVariable Long usuarioId,
             @PathVariable Long grupoId) {
-        cadastroUsuario.desassociarGrupo(usuarioId, grupoId);
+        cadastroUsuarioService.desassociarGrupo(usuarioId, grupoId);
     }
 }

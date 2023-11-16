@@ -8,7 +8,7 @@ import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
-import com.algaworks.algafood.domain.service.CadastroUsuario;
+import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +22,13 @@ public class UsuarioController {
     private final UsuarioModelAssembler usuarioModelAssembler;
     private final UsuarioDisassembler usuarioDisassembler;
     private final UsuarioRepository usuarioRepository;
-    private final CadastroUsuario cadastroUsuario;
+    private final CadastroUsuarioService cadastroUsuarioService;
 
-    public UsuarioController(UsuarioModelAssembler usuarioModelAssembler, UsuarioDisassembler usuarioDisassembler, UsuarioRepository usuarioRepository, CadastroUsuario cadastroUsuario) {
+    public UsuarioController(UsuarioModelAssembler usuarioModelAssembler, UsuarioDisassembler usuarioDisassembler, UsuarioRepository usuarioRepository, CadastroUsuarioService cadastroUsuarioService) {
         this.usuarioModelAssembler = usuarioModelAssembler;
         this.usuarioDisassembler = usuarioDisassembler;
         this.usuarioRepository = usuarioRepository;
-        this.cadastroUsuario = cadastroUsuario;
+        this.cadastroUsuarioService = cadastroUsuarioService;
     }
 
     @GetMapping
@@ -38,7 +38,7 @@ public class UsuarioController {
 
     @GetMapping("/{usuarioId}")
     public UsuarioModel buscar(@PathVariable Long usuarioId) {
-        return usuarioModelAssembler.toModel(cadastroUsuario.buscarOuFalhar(usuarioId));
+        return usuarioModelAssembler.toModel(cadastroUsuarioService.buscarOuFalhar(usuarioId));
     }
 
     @PostMapping
@@ -46,24 +46,24 @@ public class UsuarioController {
     public UsuarioModel cadastrar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
         Usuario usuario = usuarioDisassembler.toDomainObject(usuarioInput);
 
-        return usuarioModelAssembler.toModel(cadastroUsuario.salvar(usuario));
+        return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuario));
     }
 
     @PutMapping("/{usuarioId}")
     public UsuarioModel atualizar(
             @PathVariable Long usuarioId,
             @RequestBody @Valid UsuarioInput usuarioInput) {
-        Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
+        Usuario usuarioAtual = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 
         usuarioDisassembler.copyToDomainObject(usuarioInput, usuarioAtual);
 
-        return usuarioModelAssembler.toModel(cadastroUsuario.salvar(usuarioAtual));
+        return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuarioAtual));
     }
 
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long usuarioId) {
-        cadastroUsuario.deletar(usuarioId);
+        cadastroUsuarioService.deletar(usuarioId);
     }
 
     @PutMapping("/{usuarioId}/senha")
@@ -71,6 +71,6 @@ public class UsuarioController {
     public void atualizarSenha(
             @PathVariable Long usuarioId,
             @RequestBody @Valid SenhaInput senhaInput) {
-        cadastroUsuario.alterarSenha(usuarioId, senhaInput.getSenhaAtual(), senhaInput.getNovaSenha());
+        cadastroUsuarioService.alterarSenha(usuarioId, senhaInput.getSenhaAtual(), senhaInput.getNovaSenha());
     }
 }

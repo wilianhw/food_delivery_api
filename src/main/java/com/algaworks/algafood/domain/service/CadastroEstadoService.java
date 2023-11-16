@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroEstado {
+public class CadastroEstadoService {
 
     private final EstadoRepository estadoRepository;
 
-    public CadastroEstado(EstadoRepository estadoRepository) {
+    public CadastroEstadoService(EstadoRepository estadoRepository) {
         this.estadoRepository = estadoRepository;
     }
 

@@ -3,7 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.UsuarioModelAssembler;
 import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.service.CadastroRestaurante;
+import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +14,16 @@ import java.util.Collection;
 public class RestauranteUsuarioController {
 
     private final UsuarioModelAssembler usuarioModelAssembler;
-    private final CadastroRestaurante cadastroRestaurante;
+    private final CadastroRestauranteService cadastroRestauranteService;
 
-    public RestauranteUsuarioController(UsuarioModelAssembler usuarioModelAssembler, CadastroRestaurante cadastroRestaurante) {
+    public RestauranteUsuarioController(UsuarioModelAssembler usuarioModelAssembler, CadastroRestauranteService cadastroRestauranteService) {
         this.usuarioModelAssembler = usuarioModelAssembler;
-        this.cadastroRestaurante = cadastroRestaurante;
+        this.cadastroRestauranteService = cadastroRestauranteService;
     }
 
     @GetMapping
     public Collection<UsuarioModel> listar(@PathVariable Long restauranteId) {
-        Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
+        Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
         return usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios());
     }
@@ -34,7 +34,7 @@ public class RestauranteUsuarioController {
             @PathVariable Long restauranteId,
             @PathVariable Long usuarioId
     ) {
-        cadastroRestaurante.associarUsuario(restauranteId, usuarioId);
+        cadastroRestauranteService.associarUsuario(restauranteId, usuarioId);
     }
 
     @DeleteMapping("/{usuarioId}")
@@ -43,6 +43,6 @@ public class RestauranteUsuarioController {
             @PathVariable Long restauranteId,
             @PathVariable Long usuarioId
     ) {
-        cadastroRestaurante.desassociarUsuario(restauranteId, usuarioId);
+        cadastroRestauranteService.desassociarUsuario(restauranteId, usuarioId);
     }
 }

@@ -7,8 +7,8 @@ import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
-import com.algaworks.algafood.domain.service.CadastroProduto;
-import com.algaworks.algafood.domain.service.CadastroRestaurante;
+import com.algaworks.algafood.domain.service.CadastroProdutoService;
+import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +20,15 @@ public class RestauranteProdutoController {
 
     private final ProdutoModelAssembler produtoModelAssembler;
     private final ProdutoInputDisassembler produtoInputDisassembler;
-    private final CadastroRestaurante cadastroRestaurante;
-    private final CadastroProduto cadastroProduto;
+    private final CadastroRestauranteService cadastroRestauranteService;
+    private final CadastroProdutoService cadastroProdutoService;
     private final ProdutoRepository produtoRepository;
 
-    public RestauranteProdutoController(CadastroRestaurante cadastroRestaurante, ProdutoModelAssembler produtoModelAssembler, ProdutoInputDisassembler produtoInputDisassembler, CadastroProduto cadastroProduto, ProdutoRepository produtoRepository) {
-        this.cadastroRestaurante = cadastroRestaurante;
+    public RestauranteProdutoController(CadastroRestauranteService cadastroRestauranteService, ProdutoModelAssembler produtoModelAssembler, ProdutoInputDisassembler produtoInputDisassembler, CadastroProdutoService cadastroProdutoService, ProdutoRepository produtoRepository) {
+        this.cadastroRestauranteService = cadastroRestauranteService;
         this.produtoModelAssembler = produtoModelAssembler;
         this.produtoInputDisassembler = produtoInputDisassembler;
-        this.cadastroProduto = cadastroProduto;
+        this.cadastroProdutoService = cadastroProdutoService;
         this.produtoRepository = produtoRepository;
     }
 
@@ -39,18 +39,18 @@ public class RestauranteProdutoController {
 
     @GetMapping("/{produtoId}")
     public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
-        return produtoModelAssembler.toModel(cadastroProduto.buscarOuFalhar(restauranteId, produtoId));
+        return produtoModelAssembler.toModel(cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel cadastrar(@PathVariable Long restauranteId, @RequestBody ProdutoInput produtoInput) {
-        Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
+        Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
         Produto produto = produtoInputDisassembler.toDomainObject(produtoInput);
         produto.setRestaurante(restaurante);
 
-        return produtoModelAssembler.toModel(cadastroProduto.salvar(produto));
+        return produtoModelAssembler.toModel(cadastroProdutoService.salvar(produto));
     }
 
     @PutMapping("/{produtoId}")
@@ -59,12 +59,12 @@ public class RestauranteProdutoController {
             @PathVariable Long restauranteId,
             @PathVariable Long produtoId,
             @RequestBody ProdutoInput produtoInput) {
-        Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        Produto produtoAtual = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
+        Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
+        Produto produtoAtual = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
         produtoInputDisassembler.copyToDomainObject(produtoInput, produtoAtual);
         produtoAtual.setRestaurante(restaurante);
 
-        return produtoModelAssembler.toModel(cadastroProduto.salvar(produtoAtual));
+        return produtoModelAssembler.toModel(cadastroProdutoService.salvar(produtoAtual));
     }
 }

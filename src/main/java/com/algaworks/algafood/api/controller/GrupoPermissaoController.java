@@ -3,7 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.model.PermissaoModel;
 import com.algaworks.algafood.domain.model.Grupo;
-import com.algaworks.algafood.domain.service.CadastroGrupo;
+import com.algaworks.algafood.domain.service.CadastroGrupoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +14,16 @@ import java.util.Collection;
 public class GrupoPermissaoController {
 
     private final PermissaoModelAssembler permissaoModelAssembler;
-    private final CadastroGrupo cadastroGrupo;
+    private final CadastroGrupoService cadastroGrupoService;
 
-    public GrupoPermissaoController(PermissaoModelAssembler permissaoModelAssembler, CadastroGrupo cadastroGrupo) {
+    public GrupoPermissaoController(PermissaoModelAssembler permissaoModelAssembler, CadastroGrupoService cadastroGrupoService) {
         this.permissaoModelAssembler = permissaoModelAssembler;
-        this.cadastroGrupo = cadastroGrupo;
+        this.cadastroGrupoService = cadastroGrupoService;
     }
 
     @GetMapping
     public Collection<PermissaoModel> listar(@PathVariable Long grupoId) {
-        Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+        Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
 
         return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
     }
@@ -33,7 +33,7 @@ public class GrupoPermissaoController {
     public void associar(
             @PathVariable Long grupoId,
             @PathVariable Long permissaoId) {
-        cadastroGrupo.associar(grupoId, permissaoId);
+        cadastroGrupoService.associar(grupoId, permissaoId);
     }
 
     @DeleteMapping("/{permissaoId}")
@@ -41,6 +41,6 @@ public class GrupoPermissaoController {
     public void desassociar(
             @PathVariable Long grupoId,
             @PathVariable Long permissaoId) {
-        cadastroGrupo.desassociar(grupoId, permissaoId);
+        cadastroGrupoService.desassociar(grupoId, permissaoId);
     }
 }

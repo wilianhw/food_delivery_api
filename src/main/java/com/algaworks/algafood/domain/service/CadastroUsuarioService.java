@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class CadastroUsuario {
+public class CadastroUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final CadastroGrupo cadastroGrupo;
+    private final CadastroGrupoService cadastroGrupoService;
 
-    public CadastroUsuario(UsuarioRepository usuarioRepository, CadastroGrupo cadastroGrupo) {
+    public CadastroUsuarioService(UsuarioRepository usuarioRepository, CadastroGrupoService cadastroGrupoService) {
         this.usuarioRepository = usuarioRepository;
-        this.cadastroGrupo = cadastroGrupo;
+        this.cadastroGrupoService = cadastroGrupoService;
     }
 
     public Usuario buscarOuFalhar(Long usuarioId) {
@@ -66,7 +66,7 @@ public class CadastroUsuario {
     public void associarGrupo(Long usuarioId, Long grupoId) {
         Usuario usuario = buscarOuFalhar(usuarioId);
 
-        Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+        Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
 
         usuario.adicionarGrupo(grupo);
     }
@@ -75,7 +75,7 @@ public class CadastroUsuario {
     public void desassociarGrupo(Long usuarioId, Long grupoId) {
         Usuario usuario = buscarOuFalhar(usuarioId);
 
-        Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+        Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
 
         usuario.removerGrupo(grupo);
     }

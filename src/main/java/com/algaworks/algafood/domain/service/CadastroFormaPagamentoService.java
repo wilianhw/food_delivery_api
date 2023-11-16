@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroFormaPagamento {
+public class CadastroFormaPagamentoService {
 
     private final FormaPagamentoRepository formaPagamentoRepository;
 
-    public CadastroFormaPagamento(FormaPagamentoRepository formaPagamentoRepository) {
+    public CadastroFormaPagamentoService(FormaPagamentoRepository formaPagamentoRepository) {
         this.formaPagamentoRepository = formaPagamentoRepository;
     }
 

@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class CadastroCidade {
+public class CadastroCidadeService {
     private final CidadeRepository cidadeRepository;
     private final EstadoRepository estadoRepository;
 
-    public CadastroCidade(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
+    public CadastroCidadeService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
         this.cidadeRepository = cidadeRepository;
         this.estadoRepository = estadoRepository;
     }

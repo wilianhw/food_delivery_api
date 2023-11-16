@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroGrupo {
+public class CadastroGrupoService {
 
     private final GrupoRepository grupoRepository;
     private final CadastroPermissaoService cadastroPermissaoService;
 
-    public CadastroGrupo(GrupoRepository grupoRepository, CadastroPermissaoService cadastroPermissaoService) {
+    public CadastroGrupoService(GrupoRepository grupoRepository, CadastroPermissaoService cadastroPermissaoService) {
         this.grupoRepository = grupoRepository;
         this.cadastroPermissaoService = cadastroPermissaoService;
     }

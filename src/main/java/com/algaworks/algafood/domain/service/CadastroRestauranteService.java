@@ -9,20 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroRestaurante {
+public class CadastroRestauranteService {
 
     private final RestauranteRepository restauranteRepository;
-    private final CadastroCozinha cadastroCozinha;
-    private final CadastroCidade cadastroCidade;
-    private final CadastroFormaPagamento cadastroFormaPagamento;
-    private final CadastroUsuario cadastroUsuario;
+    private final CadastroCozinhaService cadastroCozinhaService;
+    private final CadastroCidadeService cadastroCidadeService;
+    private final CadastroFormaPagamentoService cadastroFormaPagamentoService;
+    private final CadastroUsuarioService cadastroUsuarioService;
 
-    public CadastroRestaurante(RestauranteRepository restauranteRepository, CadastroCozinha cadastroCozinha, CadastroCidade cadastroCidade, CadastroFormaPagamento cadastroFormaPagamento, CadastroUsuario cadastroUsuario) {
+    public CadastroRestauranteService(RestauranteRepository restauranteRepository, CadastroCozinhaService cadastroCozinhaService, CadastroCidadeService cadastroCidadeService, CadastroFormaPagamentoService cadastroFormaPagamentoService, CadastroUsuarioService cadastroUsuarioService) {
         this.restauranteRepository = restauranteRepository;
-        this.cadastroCozinha = cadastroCozinha;
-        this.cadastroCidade = cadastroCidade;
-        this.cadastroFormaPagamento = cadastroFormaPagamento;
-        this.cadastroUsuario = cadastroUsuario;
+        this.cadastroCozinhaService = cadastroCozinhaService;
+        this.cadastroCidadeService = cadastroCidadeService;
+        this.cadastroFormaPagamentoService = cadastroFormaPagamentoService;
+        this.cadastroUsuarioService = cadastroUsuarioService;
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
@@ -35,8 +35,8 @@ public class CadastroRestaurante {
         Long cozinhaId = restaurante.getCozinha().getId();
         Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
-        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
-        Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+        Cozinha cozinha = cadastroCozinhaService.buscarOuFalhar(cozinhaId);
+        Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
         restaurante.getEndereco().setCidade(cidade);
@@ -68,7 +68,7 @@ public class CadastroRestaurante {
     public void desassociar(Long restauranteId, Long formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
-        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
         restaurante.desassociarFormaPagamento(formaPagamento);
     }
@@ -91,7 +91,7 @@ public class CadastroRestaurante {
     public void associar(Long restauranteId, Long formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
-        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
         restaurante.associarFormaPagamento(formaPagamento);
     }
@@ -107,7 +107,7 @@ public class CadastroRestaurante {
     public void associarUsuario(Long restauranteId, Long usuarioId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
-        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+        Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 
         restaurante.adicionarUsuario(usuario);
     }
@@ -116,7 +116,7 @@ public class CadastroRestaurante {
     public void desassociarUsuario(Long restauranteId, Long usuarioId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
 
-        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+        Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 
         restaurante.removerUsuario(usuario);
     }
