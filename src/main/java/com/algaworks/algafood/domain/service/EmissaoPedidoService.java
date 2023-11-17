@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroPedidoService {
+public class EmissaoPedidoService {
 
-    private final CadastroRestauranteService cadastroRestaurante;
     private final CadastroCidadeService cadastroCidade;
     private final CadastroUsuarioService cadastroUsuario;
+    private final CadastroRestauranteService cadastroRestaurante;
     private final CadastroProdutoService cadastroProduto;
     private final CadastroFormaPagamentoService cadastroFormaPagamento;
     private final PedidoRepository pedidoRepository;
 
-    public CadastroPedidoService(CadastroRestauranteService cadastroRestaurante, CadastroCidadeService cadastroCidade, CadastroUsuarioService cadastroUsuario, CadastroProdutoService cadastroProduto, CadastroFormaPagamentoService cadastroFormaPagamento, PedidoRepository pedidoRepository) {
-        this.cadastroRestaurante = cadastroRestaurante;
+    public EmissaoPedidoService(CadastroCidadeService cadastroCidade, CadastroUsuarioService cadastroUsuario, CadastroRestauranteService cadastroRestaurante, CadastroProdutoService cadastroProduto, CadastroFormaPagamentoService cadastroFormaPagamento, PedidoRepository pedidoRepository) {
         this.cadastroCidade = cadastroCidade;
         this.cadastroUsuario = cadastroUsuario;
+        this.cadastroRestaurante = cadastroRestaurante;
         this.cadastroProduto = cadastroProduto;
         this.cadastroFormaPagamento = cadastroFormaPagamento;
         this.pedidoRepository = pedidoRepository;

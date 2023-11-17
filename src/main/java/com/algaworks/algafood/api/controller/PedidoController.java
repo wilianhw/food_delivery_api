@@ -8,7 +8,7 @@ import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
-import com.algaworks.algafood.domain.service.CadastroPedidoService;
+import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,15 +20,15 @@ public class PedidoController {
     private final PedidoModelAssembler pedidoModelAssembler;
     private final PedidoInputDisassembler pedidoInputDisassembler;
     private final PedidoResumoModelAssembler pedidoResumoModelAssembler;
+    private final EmissaoPedidoService emissaoPedidoService;
     private final PedidoRepository pedidoRepository;
-    private final CadastroPedidoService cadastroPedidoService;
 
-    public PedidoController(PedidoModelAssembler pedidoModelAssembler, PedidoInputDisassembler pedidoInputDisassembler, PedidoResumoModelAssembler pedidoResumoModelAssembler, PedidoRepository pedidoRepository, CadastroPedidoService cadastroPedidoService) {
+    public PedidoController(PedidoModelAssembler pedidoModelAssembler, PedidoInputDisassembler pedidoInputDisassembler, PedidoResumoModelAssembler pedidoResumoModelAssembler, PedidoRepository pedidoRepository, EmissaoPedidoService emissaoPedidoService) {
         this.pedidoModelAssembler = pedidoModelAssembler;
         this.pedidoInputDisassembler = pedidoInputDisassembler;
         this.pedidoResumoModelAssembler = pedidoResumoModelAssembler;
         this.pedidoRepository = pedidoRepository;
-        this.cadastroPedidoService = cadastroPedidoService;
+        this.emissaoPedidoService = emissaoPedidoService;
     }
 
     @GetMapping
@@ -38,13 +38,13 @@ public class PedidoController {
 
     @GetMapping("/{pedidoId}")
     public PedidoModel buscar(@PathVariable Long pedidoId) {
-        return pedidoModelAssembler.toModel(cadastroPedidoService.buscarOuFalhar(pedidoId));
+        return pedidoModelAssembler.toModel(emissaoPedidoService.buscarOuFalhar(pedidoId));
     }
 
     @PostMapping
     public PedidoModel cadastrar(@RequestBody PedidoInput pedidoInput) {
         Pedido pedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
-        return pedidoModelAssembler.toModel(cadastroPedidoService.emitir(pedido));
+        return pedidoModelAssembler.toModel(emissaoPedidoService.emitir(pedido));
     }
 }
