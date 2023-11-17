@@ -25,7 +25,7 @@ public class RestauranteFormaPagamentoController {
     public List<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
-        return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPamento());
+        return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamento());
     }
 
     @DeleteMapping("/{formaPagamentoId}")

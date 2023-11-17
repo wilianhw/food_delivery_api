@@ -59,7 +59,7 @@ public class Restaurante {
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-    public Set<FormaPagamento> formasPamento = new HashSet<>();
+    public Set<FormaPagamento> formasPagamento = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "restaurante_usuario_responsavel",
@@ -80,11 +80,11 @@ public class Restaurante {
     }
 
     public void desassociarFormaPagamento(FormaPagamento formaPagamento) {
-        formasPamento.remove(formaPagamento);
+        formasPagamento.remove(formaPagamento);
     }
 
     public void associarFormaPagamento(FormaPagamento formaPagamento) {
-        formasPamento.add(formaPagamento);
+        formasPagamento.add(formaPagamento);
     }
 
     public void abrir() {
@@ -101,5 +101,13 @@ public class Restaurante {
 
     public void removerUsuario(Usuario usuario) {
         usuarios.remove(usuario);
+    }
+
+    public boolean aceitaFormaPagamento(FormaPagamento formaPagamento) {
+        return getFormasPagamento().contains(formaPagamento);
+    }
+
+    public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
+        return !aceitaFormaPagamento(formaPagamento);
     }
 }
