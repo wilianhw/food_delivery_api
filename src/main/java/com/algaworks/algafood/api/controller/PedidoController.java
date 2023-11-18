@@ -8,7 +8,9 @@ import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
+import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
+import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpec;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +34,8 @@ public class PedidoController {
     }
 
     @GetMapping
-    public List<PedidoResumoModel> listar() {
-        return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll());
+    public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
+        return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll(PedidoSpec.usandoFiltro(filtro)));
     }
 
     @GetMapping("/{codigoPedido}")
