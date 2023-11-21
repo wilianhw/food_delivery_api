@@ -15,6 +15,7 @@ DELETE FROM permissao;
 DELETE FROM pedido;
 DELETE FROM item_pedido;
 DELETE FROM restaurante_usuario_responsavel;
+DELETE FROM foto_produto;
 
 SET session_replication_role = 'origin';
 
