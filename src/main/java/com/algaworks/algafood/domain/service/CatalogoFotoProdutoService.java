@@ -5,6 +5,8 @@ import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class CatalogoFotoProdutoService {
 
@@ -16,6 +18,12 @@ public class CatalogoFotoProdutoService {
 
     @Transactional
     public FotoProduto salvar(FotoProduto fotoProduto) {
+        Long restauranteId = fotoProduto.getProduto().getRestaurante().getId();
+        Long produtoId = fotoProduto.getProduto().getId();
+        Optional<FotoProduto> fotoProdutoExistente = produtoRepository.findFotoById(restauranteId, produtoId);
+
+        fotoProdutoExistente.ifPresent(produtoRepository::delete);
+
         return produtoRepository.save(fotoProduto);
     }
 }
