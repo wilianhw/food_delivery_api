@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProdutoRepository extends CustomJpaRepository<Produto, Long> {
+public interface ProdutoRepository extends CustomJpaRepository<Produto, Long>, ProdutoRepositoryQueries {
     @Query("from Produto where id = :produto and restaurante.id = :restaurante")
     Optional<Produto> findByIdAndRestauranteId(@Param("produto") Long produtoId, @Param("restaurante") Long restauranteId);
 
