@@ -22,7 +22,8 @@ public class FluxoPedidoService {
 
         EnvioEmailService.Mensagem mensagem = EnvioEmailService.Mensagem.builder()
                 .assunto(pedido.getRestaurante().getNome() + " - pedido confirmado")
-                .corpo("O pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado")
+                .corpo("pedido-confirmado.html")
+                .variavel("pedido", pedido)
                 .destinatario(pedido.getCliente().getEmail())
                 .build();
 
