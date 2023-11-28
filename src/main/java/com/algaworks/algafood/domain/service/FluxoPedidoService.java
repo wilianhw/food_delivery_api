@@ -8,16 +8,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class FluxoPedidoService {
 
     private final EmissaoPedidoService emissaoPedido;
+    private final EnvioEmailService envioEmail;
 
-    public FluxoPedidoService(EmissaoPedidoService emissaoPedido) {
+    public FluxoPedidoService(EmissaoPedidoService emissaoPedido, EnvioEmailService envioEmail) {
         this.emissaoPedido = emissaoPedido;
+        this.envioEmail = envioEmail;
     }
 
     @Transactional
     public void confirmar(String codigoPedido) {
         Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
-
         pedido.confirmar();
+
+        EnvioEmailService.Mensagem mensagem = EnvioEmailService.Mensagem.builder()
+                .assunto(pedido.getRestaurante().getNome() + " - pedido confirmado")
+                .corpo("O pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado")
+                .destinatario(pedido.getCliente().getEmail())
+                .build();
+
+        envioEmail.enviar(mensagem);
     }
 
     @Transactional

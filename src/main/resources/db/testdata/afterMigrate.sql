@@ -90,7 +90,7 @@ INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VAL
 
 -- Usuario
 INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES
-(1, 'João da Silva', 'joao.ger@algafood.com', '123', current_timestamp),
+(1, 'João da Silva', 'wilianhenrique.souza94@gmail.com', '123', current_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', current_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', current_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', current_timestamp);
