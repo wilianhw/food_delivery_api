@@ -7,10 +7,8 @@ import freemarker.template.Template;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-@Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
 
     private final JavaMailSender mailSender;
@@ -26,7 +24,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
     @Override
     public void enviar(Mensagem mensagem) {
         try {
-            String corpo = processarTemplete(mensagem);
+            String corpo = processarTemplate(mensagem);
 
             MimeMessage mimeMessage = mailSender.createMimeMessage();
 
@@ -42,7 +40,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         }
     }
 
-    private String processarTemplete(Mensagem mensagem) {
+    private String processarTemplate(Mensagem mensagem) {
         try {
             Template template = freeMarkerConfig.getTemplate(mensagem.getCorpo());
 
