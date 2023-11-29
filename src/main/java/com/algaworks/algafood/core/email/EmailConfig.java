@@ -2,6 +2,7 @@ package com.algaworks.algafood.core.email;
 
 import com.algaworks.algafood.domain.service.EnvioEmailService;
 import com.algaworks.algafood.infrastructure.service.email.FakeEmailEnvioService;
+import com.algaworks.algafood.infrastructure.service.email.SandBoxEnvioEmailService;
 import com.algaworks.algafood.infrastructure.service.email.SmtpEnvioEmailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,13 @@ public class EmailConfig {
 
     @Bean
     public EnvioEmailService envioEmailService() {
-        if (EmailProperties.Implementacao.FAKE.equals(emailProperties.getImpl()))
-            return new FakeEmailEnvioService(freeMarkerConfig);
-        else
-            return new SmtpEnvioEmailService(mailSender, emailProperties, freeMarkerConfig);
+        switch (emailProperties.getImpl()) {
+            case SANDBOX:
+                return new SandBoxEnvioEmailService(mailSender, emailProperties, freeMarkerConfig);
+            case SMTP:
+                return new SmtpEnvioEmailService(mailSender, emailProperties, freeMarkerConfig);
+            default:
+                return new FakeEmailEnvioService(freeMarkerConfig);
+        }
     }
 }
