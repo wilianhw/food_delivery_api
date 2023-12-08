@@ -53,8 +53,8 @@ INSERT INTO produto(id, nome, descricao, preco, ativo, restaurante_id) VALUES(6,
 SELECT setval(pg_get_serial_sequence('produto', 'id'), 6);
 
 -- Forma de pagamento
-INSERT INTO forma_pagamento (id, descricao) VALUES (1, 'Crédito');
-INSERT INTO forma_pagamento (id, descricao) VALUES (2, 'Debito');
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (1, 'Crédito', current_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (2, 'Debito', current_timestamp);
 SELECT setval(pg_get_serial_sequence('forma_pagamento', 'id'), 2);
 
 -- Grupo
