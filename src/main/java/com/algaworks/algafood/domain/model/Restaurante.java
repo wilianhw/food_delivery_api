@@ -49,7 +49,7 @@ public class Restaurante {
     private Boolean ativo = Boolean.TRUE;
 
     @Column(nullable = false)
-    private Boolean aberto;
+    private Boolean aberto = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
