@@ -9,6 +9,7 @@ import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -33,16 +34,19 @@ public class CidadeController {
         this.cadastroCidadeService = cadastroCidadeService;
     }
 
+    @Operation(summary = "Busca uma cidade por ID")
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         return cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
     }
 
+    @Operation(summary = "Lista as cidades")
     @GetMapping
     public List<CidadeModel> listar() {
         return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
     }
 
+    @Operation(summary = "Cadastra uma cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeModel criar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -55,6 +59,7 @@ public class CidadeController {
         }
     }
 
+    @Operation(summary = "Atualiza uma cidade por ID")
     @PutMapping("/{cidadeId}")
     public CidadeModel atualizar(
             @PathVariable Long cidadeId,
@@ -71,6 +76,7 @@ public class CidadeController {
         }
     }
 
+    @Operation(summary = "Exclui uma cidade por ID")
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long cidadeId) {
