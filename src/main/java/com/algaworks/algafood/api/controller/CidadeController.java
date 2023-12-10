@@ -10,6 +10,7 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,9 @@ public class CidadeController {
 
     @Operation(summary = "Busca uma cidade por ID")
     @GetMapping("/{cidadeId}")
-    public CidadeModel buscar(@PathVariable Long cidadeId) {
+    public CidadeModel buscar(
+            @Parameter(description = "ID de uma cidade")
+            @PathVariable Long cidadeId) {
         return cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
     }
 
@@ -49,7 +52,8 @@ public class CidadeController {
     @Operation(summary = "Cadastra uma cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CidadeModel criar(@RequestBody @Valid CidadeInput cidadeInput) {
+    public CidadeModel criar(
+            @RequestBody @Valid CidadeInput cidadeInput) {
         try {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 
@@ -62,6 +66,7 @@ public class CidadeController {
     @Operation(summary = "Atualiza uma cidade por ID")
     @PutMapping("/{cidadeId}")
     public CidadeModel atualizar(
+            @Parameter(description = "ID de uma cidade")
             @PathVariable Long cidadeId,
             @RequestBody @Valid CidadeInput cidadeInput
     ) {
@@ -79,7 +84,9 @@ public class CidadeController {
     @Operation(summary = "Exclui uma cidade por ID")
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Long cidadeId) {
+    public void deletar(
+            @Parameter(description = "ID de uma cidade")
+            @PathVariable Long cidadeId) {
         cadastroCidadeService.apagar(cidadeId);
     }
 }
