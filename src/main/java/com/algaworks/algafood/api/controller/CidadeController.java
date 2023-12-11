@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @Tag(name = "Cidades", description = "Gerencia as cidades")
 @RestController
-@RequestMapping("/cidade")
+@RequestMapping("/cidades")
 public class CidadeController {
 
     private final CidadeModelAssembler cidadeModelAssembler;
@@ -41,7 +43,18 @@ public class CidadeController {
     public CidadeModel buscar(
             @Parameter(description = "ID de uma cidade")
             @PathVariable Long cidadeId) {
-        return cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
+        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
+
+        cidadeModel.add(linkTo(CidadeController.class)
+                .slash(cidadeModel.getId()).withSelfRel());
+
+        cidadeModel.add(linkTo(CidadeController.class)
+                .withRel("cidades"));
+
+        cidadeModel.getEstado().add(linkTo(EstadoController.class)
+                .slash(cidadeModel.getEstado().getId()).withSelfRel());
+
+        return cidadeModel;
     }
 
     @Operation(summary = "Lista as cidades")
