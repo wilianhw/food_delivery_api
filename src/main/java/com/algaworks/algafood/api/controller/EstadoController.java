@@ -8,13 +8,12 @@ import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/estado")
+@RequestMapping("/estados")
 public class EstadoController {
 
     private final EstadoModelAssembler estadoModelAssembler;
@@ -35,7 +34,7 @@ public class EstadoController {
     }
 
     @GetMapping
-    public List<EstadoModel> listar() {
+    public CollectionModel<EstadoModel> listar() {
         return estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
     }
 
