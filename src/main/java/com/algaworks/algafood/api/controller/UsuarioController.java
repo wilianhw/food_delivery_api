@@ -10,10 +10,9 @@ import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -32,7 +31,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public Collection<UsuarioModel> listar() {
+    public CollectionModel<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 
