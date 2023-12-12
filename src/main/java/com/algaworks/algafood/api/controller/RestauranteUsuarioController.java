@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/usuarios")
@@ -28,7 +29,8 @@ public class RestauranteUsuarioController {
 
         return usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios())
                 .removeLinks()
-                .add(linkTo(RestauranteUsuarioController.class).withSelfRel());
+                .add(linkTo(methodOn(RestauranteUsuarioController.class)
+                        .listar(restauranteId)).withSelfRel());
     }
 
     @PutMapping("/{usuarioId}")
