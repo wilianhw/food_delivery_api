@@ -8,6 +8,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/usuarios")
 public class RestauranteUsuarioController {
@@ -24,7 +26,9 @@ public class RestauranteUsuarioController {
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
-        return usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios());
+        return usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios())
+                .removeLinks()
+                .add(linkTo(RestauranteUsuarioController.class).withSelfRel());
     }
 
     @PutMapping("/{usuarioId}")
