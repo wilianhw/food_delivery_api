@@ -14,13 +14,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Cidades", description = "Gerencia as cidades")
 @RestController
@@ -44,23 +40,12 @@ public class CidadeController {
     public CidadeModel buscar(
             @Parameter(description = "ID de uma cidade")
             @PathVariable Long cidadeId) {
-        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
-
-        cidadeModel.add(linkTo(methodOn(CidadeController.class)
-                .buscar(cidadeId)).withSelfRel());
-
-        cidadeModel.add(linkTo(methodOn(CidadeController.class)
-                .listar()).withRel("cidades"));
-
-        cidadeModel.add(linkTo(methodOn(EstadoController.class)
-                .buscar(cidadeModel.getEstado().getId())).withSelfRel());
-
-        return cidadeModel;
+        return cidadeModelAssembler.toModel(cadastroCidadeService.buscarOuFalhar(cidadeId));
     }
 
     @Operation(summary = "Lista as cidades")
     @GetMapping
-    public List<CidadeModel> listar() {
+    public CollectionModel<CidadeModel> listar() {
         return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
     }
 
