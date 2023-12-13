@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,21 +27,21 @@ public class CozinhaController {
     private final CozinhaInputDisassembler cozinhaInputDisassembler;
     private final CozinhaRepository cozinhaRepository;
     private final CadastroCozinhaService cadastroCozinhaService;
+    private final PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
-    public CozinhaController(CozinhaModelAssembler cozinhaModelAssembler, CozinhaInputDisassembler cozinhaInputDisassembler, CozinhaRepository cozinhaRepository, CadastroCozinhaService cadastroCozinhaService) {
+    public CozinhaController(CozinhaModelAssembler cozinhaModelAssembler, CozinhaInputDisassembler cozinhaInputDisassembler, CozinhaRepository cozinhaRepository, CadastroCozinhaService cadastroCozinhaService, PagedResourcesAssembler<Cozinha> pagedResourcesAssembler) {
         this.cozinhaModelAssembler = cozinhaModelAssembler;
         this.cozinhaInputDisassembler = cozinhaInputDisassembler;
         this.cozinhaRepository = cozinhaRepository;
         this.cadastroCozinhaService = cadastroCozinhaService;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @GetMapping
-    public Page<CozinhaModel> listar(@PageableDefault(size = 2) Pageable pageable) {
+    public PagedModel<CozinhaModel> listar(@PageableDefault(size = 2) Pageable pageable) {
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
-        List<CozinhaModel> cozinhasModel  = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
-
-        return new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalPages());
+        return pagedResourcesAssembler.toModel(cozinhasPage, cozinhaModelAssembler);
     }
 
     @GetMapping("/{cozinhaId}")
