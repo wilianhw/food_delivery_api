@@ -1,23 +1,23 @@
 package com.algaworks.algafood.api.model;
 
-import com.algaworks.algafood.domain.model.Endereco;
 import com.algaworks.algafood.domain.model.StatusPedido;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-public class PedidoModel {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class PedidoModel extends RepresentationModel<PedidoModel> {
 
     private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
-    private Endereco endereco;
+    private EnderecoModel endereco;
     private StatusPedido status;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataConfirmacao;

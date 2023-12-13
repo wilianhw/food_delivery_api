@@ -1,11 +1,12 @@
 package com.algaworks.algafood.api.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
-@Getter
-@Setter
-public class CidadeResumoModel {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class CidadeResumoModel extends RepresentationModel<CidadeResumoModel> {
     private Long id;
     private String nome;
     private String estado;

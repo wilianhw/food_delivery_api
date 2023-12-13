@@ -1,15 +1,16 @@
 package com.algaworks.algafood.api.model;
 
 import com.algaworks.algafood.domain.model.StatusPedido;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-public class PedidoResumoModel {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
     private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
