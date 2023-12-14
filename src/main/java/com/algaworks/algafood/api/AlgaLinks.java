@@ -74,6 +74,10 @@ public class AlgaLinks {
         return linkTo(methodOn(FormaPagamentoController.class).buscar(formaPagamentoId)).withSelfRel();
     }
 
+    public Link linkToFormaPagamento(String rel) {
+        return linkTo(FormaPagamentoController.class).withRel(rel);
+    }
+
     public Link linkToCidades(Long cidadeId) {
         return linkTo(methodOn(CidadeController.class).buscar(cidadeId)).withSelfRel();
     }
