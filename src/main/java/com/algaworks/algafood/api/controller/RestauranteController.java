@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.RestauranteBasicoModelAssembler;
 import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
+import com.algaworks.algafood.api.model.RestauranteBasicoModel;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
@@ -12,6 +14,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,17 +29,19 @@ public class RestauranteController {
     private final CadastroRestauranteService cadastroRestauranteService;
     private final RestauranteModelAssembler restauranteModelAssembler;
     private final RestauranteInputDisassembler restauranteInputDisassembler;
+    private final RestauranteBasicoModelAssembler restauranteBasicoModelAssembler;
 
-    public RestauranteController(RestauranteRepository restauranteRepository, CadastroRestauranteService cadastroRestauranteService, RestauranteModelAssembler restauranteModelAssembler, RestauranteInputDisassembler restauranteInputDisassembler) {
+    public RestauranteController(RestauranteRepository restauranteRepository, CadastroRestauranteService cadastroRestauranteService, RestauranteModelAssembler restauranteModelAssembler, RestauranteInputDisassembler restauranteInputDisassembler, RestauranteBasicoModelAssembler restauranteBasicoModelAssembler) {
         this.restauranteRepository = restauranteRepository;
         this.cadastroRestauranteService = cadastroRestauranteService;
         this.restauranteModelAssembler = restauranteModelAssembler;
         this.restauranteInputDisassembler = restauranteInputDisassembler;
+        this.restauranteBasicoModelAssembler = restauranteBasicoModelAssembler;
     }
 
     @GetMapping
-    public List<RestauranteModel> list() {
-        return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+    public CollectionModel<RestauranteBasicoModel> list() {
+        return restauranteBasicoModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
     @GetMapping("/por-nome")
@@ -136,7 +141,8 @@ public class RestauranteController {
             cadastroRestauranteService.inativar(restauranteIds);
         } catch (RestauranteNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
-        }    }
+        }
+    }
 
     @DeleteMapping("/{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)

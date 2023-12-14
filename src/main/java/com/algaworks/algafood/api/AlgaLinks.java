@@ -49,6 +49,11 @@ public class AlgaLinks {
         return linkTo(methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
     }
 
+    public Link linkToRestaurante(String rel) {
+        return linkTo(RestauranteController.class).withRel(rel);
+    }
+
+
     public Link linkToUsuarios(Long usuarioId) {
         return linkTo(methodOn(UsuarioController.class).buscar(usuarioId)).withSelfRel();
     }
@@ -85,11 +90,21 @@ public class AlgaLinks {
         return linkTo(EstadoController.class).withRel("estados");
     }
 
-    public Link linkToCozinhas() {
-        return linkTo(CozinhaController.class).withRel("cozinhas");
+    public Link linkToCozinhas(String rel) {
+        return linkTo(CozinhaController.class).withRel(rel);
+    }
+
+    public Link linkToCozinhas(Long cozinhaId) {
+        return linkTo(methodOn(CozinhaController.class)
+                .buscar(cozinhaId)).withSelfRel();
     }
 
     public Link linkToItens(Long restauranteId, Long produtoId) {
         return linkTo(methodOn(RestauranteProdutoController.class).buscar(restauranteId, produtoId)).withSelfRel();
+    }
+
+    public Link linkToRestaurnateFormasPagamento(Long restauranteId, String rel) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                .listar(restauranteId)).withRel(rel);
     }
 }
