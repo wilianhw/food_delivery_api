@@ -110,4 +110,20 @@ public class Restaurante {
     public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
         return !aceitaFormaPagamento(formaPagamento);
     }
+
+    public boolean podeAtivar() {
+        return !getAtivo();
+    }
+
+    public boolean podeInativar() {
+        return !podeAtivar();
+    }
+
+    public boolean podeAbrir() {
+        return !getAberto();
+    }
+
+    public boolean podeFechar() {
+        return !podeAbrir();
+    }
 }
