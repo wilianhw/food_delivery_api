@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.assembler.UsuarioModelAssembler;
 import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -8,19 +9,18 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/usuarios")
 public class RestauranteUsuarioController {
 
     private final UsuarioModelAssembler usuarioModelAssembler;
     private final CadastroRestauranteService cadastroRestauranteService;
+    private final AlgaLinks algaLinks;
 
-    public RestauranteUsuarioController(UsuarioModelAssembler usuarioModelAssembler, CadastroRestauranteService cadastroRestauranteService) {
+    public RestauranteUsuarioController(UsuarioModelAssembler usuarioModelAssembler, CadastroRestauranteService cadastroRestauranteService, AlgaLinks algaLinks) {
         this.usuarioModelAssembler = usuarioModelAssembler;
         this.cadastroRestauranteService = cadastroRestauranteService;
+        this.algaLinks = algaLinks;
     }
 
     @GetMapping
@@ -29,8 +29,7 @@ public class RestauranteUsuarioController {
 
         return usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios())
                 .removeLinks()
-                .add(linkTo(methodOn(RestauranteUsuarioController.class)
-                        .listar(restauranteId)).withSelfRel());
+                .add(algaLinks.linkToResponsaveisRestaurante(restauranteId));
     }
 
     @PutMapping("/{usuarioId}")
