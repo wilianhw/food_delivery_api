@@ -66,6 +66,16 @@ public class AlgaLinks {
         return linkTo(methodOn(RestauranteUsuarioController.class).listar(restauranteId)).withSelfRel();
     }
 
+    public Link linkToResponsavelRestauranteAssociar(Long restauranteId, String rel) {
+        return linkTo(methodOn(RestauranteUsuarioController.class)
+                .associar(restauranteId, null)).withRel(rel);
+    }
+
+    public Link linkToResponsavelRestauranteDesssociar(Long restauranteId, Long usuarioId, String rel) {
+        return linkTo(methodOn(RestauranteUsuarioController.class)
+                .desassociar(restauranteId, usuarioId)).withRel(rel);
+    }
+
     public Link linkToGruposUsuario(Long usuarioId) {
         return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId)).withRel("grupos-usuario");
     }
