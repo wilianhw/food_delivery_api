@@ -9,10 +9,9 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
@@ -33,7 +32,7 @@ public class RestauranteProdutoController {
     }
 
     @GetMapping
-    public Set<ProdutoModel> listar(@PathVariable Long restauranteId) {
+    public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId) {
         return produtoModelAssembler.toCollectionModel(produtoRepository.findByRestauranteId(restauranteId));
     }
 

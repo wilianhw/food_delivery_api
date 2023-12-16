@@ -113,8 +113,16 @@ public class AlgaLinks {
                 .buscar(cozinhaId)).withSelfRel();
     }
 
-    public Link linkToItens(Long restauranteId, Long produtoId) {
+    public Link linkToProduto(Long restauranteId, Long produtoId) {
         return linkTo(methodOn(RestauranteProdutoController.class).buscar(restauranteId, produtoId)).withSelfRel();
+    }
+
+    public Link linkToProduto(Long restauranteId, Long produtoId, String rel) {
+        return linkTo(methodOn(RestauranteProdutoController.class).buscar(restauranteId, produtoId)).withRel(rel);
+    }
+
+    public Link linkToFotoProduto(Long restauranteId, Long produtoId, String rel) {
+        return linkTo(methodOn(RestauranteFotoProdutoController.class).buscar(restauranteId, produtoId)).withRel(rel);
     }
 
     public Link linkToRestaurnateFormasPagamento(Long restauranteId, String rel) {

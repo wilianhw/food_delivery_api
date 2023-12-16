@@ -1,11 +1,12 @@
 package com.algaworks.algafood.api.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
-@Getter
-@Setter
-public class FotoProdutoModel {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class FotoProdutoModel extends RepresentationModel<FotoProdutoModel> {
     private String nomeArquivo;
     private String descricao;
     private String contentType;
