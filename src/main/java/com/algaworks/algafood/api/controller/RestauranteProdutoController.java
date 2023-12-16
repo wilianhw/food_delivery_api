@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/restaurante/{restauranteId}/produtos")
+@RequestMapping("/restaurantes/{restauranteId}/produtos")
 public class RestauranteProdutoController {
 
     private final ProdutoModelAssembler produtoModelAssembler;
