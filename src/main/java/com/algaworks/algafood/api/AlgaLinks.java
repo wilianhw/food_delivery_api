@@ -88,6 +88,20 @@ public class AlgaLinks {
         return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
     }
 
+    public Link linkToGrupoPermissaoAssociacao(Long grupoId, String rel) {
+        return linkTo(methodOn(GrupoPermissaoController.class)
+                .associar(grupoId, null)).withRel(rel);
+    }
+
+    public Link linkToGrupoPermissaoDesssociacao(Long grupoId, String rel) {
+        return linkTo(methodOn(GrupoPermissaoController.class)
+                .desassociar(grupoId, null)).withRel(rel);
+    }
+
+    public Link linkToPermissoes(String rel) {
+        return linkTo(methodOn(PermissaoController.class).listar()).withRel(rel);
+    }
+
     public Link linkToFormaPagamento(Long formaPagamentoId) {
         return linkTo(methodOn(FormaPagamentoController.class).buscar(formaPagamentoId)).withSelfRel();
     }
