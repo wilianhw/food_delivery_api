@@ -80,6 +80,14 @@ public class AlgaLinks {
         return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId)).withRel("grupos-usuario");
     }
 
+    public Link linkToGrupos(String rel) {
+        return linkTo(methodOn(GrupoController.class).listar()).withRel(rel);
+    }
+
+    public Link linkToGrupoPermissao(Long grupoId, String rel) {
+        return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
+    }
+
     public Link linkToFormaPagamento(Long formaPagamentoId) {
         return linkTo(methodOn(FormaPagamentoController.class).buscar(formaPagamentoId)).withSelfRel();
     }
