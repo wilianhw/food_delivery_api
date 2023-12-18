@@ -25,7 +25,7 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
         RestauranteModel restauranteModel = createModelWithId(restaurante.getId(), restaurante);
         modelMapper.map(restaurante, restauranteModel);
 
-        restauranteModel.add(algaLinks.linkToRestaurante("restaurantes"));
+        restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
 
         restauranteModel.add(algaLinks.linkToRestaurnateFormasPagamento(
                 restauranteModel.getId(),

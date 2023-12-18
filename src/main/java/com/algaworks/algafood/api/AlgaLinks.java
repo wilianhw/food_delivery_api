@@ -16,7 +16,7 @@ public class AlgaLinks {
             new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
     );
 
-    public Link linkToPedidos() {
+    public Link linkToPedidos(String rel) {
         TemplateVariables filtroVariables = new TemplateVariables(
                 new TemplateVariable("clienteId", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
@@ -27,7 +27,7 @@ public class AlgaLinks {
         String pedidoUrl = linkTo(PedidoController.class).toUri().toString();
 
         return Link.of(UriTemplate.of(
-                pedidoUrl, PAGINACAO_VARIABLES.concat(filtroVariables)), LinkRelation.of("pedidos"));
+                pedidoUrl, PAGINACAO_VARIABLES.concat(filtroVariables)), LinkRelation.of(rel));
     }
 
     public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
@@ -45,17 +45,21 @@ public class AlgaLinks {
                 .cancelar(codigoPedido)).withRel(rel);
     }
 
-    public Link linkToRestaurante(Long restauranteId) {
+    public Link linkToRestaurantes(Long restauranteId) {
         return linkTo(methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
     }
 
-    public Link linkToRestaurante(String rel) {
+    public Link linkToRestaurantes(String rel) {
         return linkTo(RestauranteController.class).withRel(rel);
     }
 
 
     public Link linkToUsuarios(Long usuarioId) {
         return linkTo(methodOn(UsuarioController.class).buscar(usuarioId)).withSelfRel();
+    }
+
+    public Link linkToUsuarios(String rel) {
+        return linkTo(methodOn(UsuarioController.class).listar()).withRel(rel);
     }
 
     public Link linkToUsuarioGruposDesassociacao(Long usuarioId, Long grupoId, String rel) {
@@ -124,16 +128,16 @@ public class AlgaLinks {
         return linkTo(methodOn(CidadeController.class).buscar(cidadeId)).withSelfRel();
     }
 
-    public Link linkToCidades() {
-        return linkTo(methodOn(CidadeController.class).listar()).withRel("cidades");
+    public Link linkToCidades(String rel) {
+        return linkTo(methodOn(CidadeController.class).listar()).withRel(rel);
     }
 
-    public Link linkToEstados(Long estadoId) {
+    public Link linkToEstado(Long estadoId) {
         return linkTo(methodOn(EstadoController.class).buscar(estadoId)).withSelfRel();
     }
 
-    public Link linkToEstados() {
-        return linkTo(EstadoController.class).withRel("estados");
+    public Link linkToEstado(String rel) {
+        return linkTo(EstadoController.class).withRel(rel);
     }
 
     public Link linkToCozinhas(String rel) {
