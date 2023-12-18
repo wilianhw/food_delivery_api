@@ -58,6 +58,16 @@ public class AlgaLinks {
         return linkTo(methodOn(UsuarioController.class).buscar(usuarioId)).withSelfRel();
     }
 
+    public Link linkToUsuarioGruposDesassociacao(Long usuarioId, Long grupoId, String rel) {
+        return linkTo(methodOn(UsuarioGrupoController.class)
+                .desassociarGrupo(usuarioId, grupoId)).withRel(rel);
+    }
+
+    public Link linkToUsuarioGruposAssociacao(Long usuarioId, String rel) {
+        return linkTo(methodOn(UsuarioGrupoController.class)
+                .desassociarGrupo(usuarioId, null)).withRel(rel);
+    }
+
     public Link linkToUsuarios() {
         return linkTo(methodOn(UsuarioController.class).listar()).withRel("usuarios");
     }

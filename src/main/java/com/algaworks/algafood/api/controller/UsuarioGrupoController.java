@@ -1,11 +1,12 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
 import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,32 +15,42 @@ public class UsuarioGrupoController {
 
     private final GrupoModelAssembler grupoModelAssembler;
     private final CadastroUsuarioService cadastroUsuarioService;
+    private final AlgaLinks algaLinks;
 
-    public UsuarioGrupoController(GrupoModelAssembler grupoModelAssembler, CadastroUsuarioService cadastroUsuarioService) {
+    public UsuarioGrupoController(GrupoModelAssembler grupoModelAssembler, CadastroUsuarioService cadastroUsuarioService, AlgaLinks algaLinks) {
         this.grupoModelAssembler = grupoModelAssembler;
         this.cadastroUsuarioService = cadastroUsuarioService;
+        this.algaLinks = algaLinks;
     }
 
     @GetMapping
     public CollectionModel<GrupoModel> listar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
 
-        return grupoModelAssembler.toCollectionModel(usuario.getGrupos());
+        CollectionModel<GrupoModel> gruposModel = grupoModelAssembler.toCollectionModel(usuario.getGrupos())
+                .add(algaLinks.linkToUsuarioGruposAssociacao(usuarioId, "associar"));
+
+        gruposModel.getContent().forEach(grupoModel ->
+                grupoModel.add(algaLinks.linkToUsuarioGruposDesassociacao(usuarioId, grupoModel.getId(), "usuario-grupos")));
+
+        return gruposModel;
     }
 
     @PutMapping("/{grupoId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void associarGrupo(
+    public ResponseEntity<Void> associarGrupo(
             @PathVariable Long usuarioId,
             @PathVariable Long grupoId) {
         cadastroUsuarioService.associarGrupo(usuarioId, grupoId);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{grupoId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desassociarGrupo(
+    public ResponseEntity<Void> desassociarGrupo(
             @PathVariable Long usuarioId,
             @PathVariable Long grupoId) {
         cadastroUsuarioService.desassociarGrupo(usuarioId, grupoId);
+
+        return ResponseEntity.noContent().build();
     }
 }
