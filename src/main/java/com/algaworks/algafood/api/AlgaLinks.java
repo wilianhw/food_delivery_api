@@ -195,4 +195,21 @@ public class AlgaLinks {
         return linkTo(methodOn(RestauranteController.class)
                 .abrir(restauranteId)).withRel(rel);
     }
+
+    public Link linkToEstatisticas(String rel) {
+        return linkTo(EstatisticasController.class).withRel(rel);
+    }
+
+    public Link linkToEstatisticasVendasDiarias(String rel) {
+        TemplateVariables filtroVariables = new TemplateVariables(
+                new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM)
+        );
+
+        String pedidoUrl = linkTo(methodOn(EstatisticasController.class)
+                .consultarVendasDiarias(null)).toUri().toString();
+
+        return Link.of(UriTemplate.of(pedidoUrl, filtroVariables), rel);
+    }
 }
