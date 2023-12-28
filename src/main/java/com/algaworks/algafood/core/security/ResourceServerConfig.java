@@ -18,10 +18,9 @@ public class ResourceServerConfig {
                 .authorizeHttpRequests(authorizeHttp -> authorizeHttp
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2Resource ->
-                        oauth2Resource.opaqueToken(opaqueToken -> opaqueToken
-                                .introspectionUri("http://localhost:8082/oauth2/introspect")
-                                .introspectionClientCredentials("algafood-web", "1234"))
-                )
+                        oauth2Resource.jwt(jwtConfigurer -> jwtConfigurer
+                                        .jwkSetUri("http://localhost:8082/oauth2/jwks")
+                ))
                 .build();
     }
 }
