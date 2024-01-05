@@ -90,10 +90,10 @@ INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VAL
 
 -- Usuario
 INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES
-(1, 'João da Silva', 'wilianhenrique.souza94@gmail.com', '123', current_timestamp),
-(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', current_timestamp),
-(3, 'José Souza', 'jose.aux@algafood.com', '123', current_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', current_timestamp);
+(1, 'João da Silva', 'wilianhenrique.souza94@gmail.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
+(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
+(3, 'José Souza', 'jose.aux@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp);
 SELECT setval(pg_get_serial_sequence('usuario', 'id'), 4);
 
 --Usuário grupo
