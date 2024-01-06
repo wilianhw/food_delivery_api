@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,12 @@ public class CadastroUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final CadastroGrupoService cadastroGrupoService;
+    private final PasswordEncoder passwordEncoder;
 
-    public CadastroUsuarioService(UsuarioRepository usuarioRepository, CadastroGrupoService cadastroGrupoService) {
+    public CadastroUsuarioService(UsuarioRepository usuarioRepository, CadastroGrupoService cadastroGrupoService, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.cadastroGrupoService = cadastroGrupoService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario buscarOuFalhar(Long usuarioId) {
@@ -33,6 +36,10 @@ public class CadastroUsuarioService {
         usuarioRepository.detach(usuario);
 
         Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (usuario.isNovo()) {
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
 
         if (usuarioExistente.isPresent() && usuarioExistente.get().equals(usuario))
             throw new NegocioException(String.format("Já existe usuário cadastro com o email %s", usuario.getEmail()));
@@ -55,7 +62,7 @@ public class CadastroUsuarioService {
     public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
         Usuario usuarioAtual = buscarOuFalhar(usuarioId);
 
-        if (usuarioAtual.senhaNaoCoincideCom(senhaAtual)) {
+        if (!passwordEncoder.matches(senhaAtual, usuarioAtual.getSenha())) {
             throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
         }
 
