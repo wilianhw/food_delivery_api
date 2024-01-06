@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.*;
@@ -15,14 +16,16 @@ public class EmissaoPedidoService {
     private final CadastroRestauranteService cadastroRestaurante;
     private final CadastroProdutoService cadastroProduto;
     private final CadastroFormaPagamentoService cadastroFormaPagamento;
+    private final AlgaSecurity algaSecurity;
     private final PedidoRepository pedidoRepository;
 
-    public EmissaoPedidoService(CadastroCidadeService cadastroCidade, CadastroUsuarioService cadastroUsuario, CadastroRestauranteService cadastroRestaurante, CadastroProdutoService cadastroProduto, CadastroFormaPagamentoService cadastroFormaPagamento, PedidoRepository pedidoRepository) {
+    public EmissaoPedidoService(CadastroCidadeService cadastroCidade, CadastroUsuarioService cadastroUsuario, CadastroRestauranteService cadastroRestaurante, CadastroProdutoService cadastroProduto, CadastroFormaPagamentoService cadastroFormaPagamento, AlgaSecurity algaSecurity, PedidoRepository pedidoRepository) {
         this.cadastroCidade = cadastroCidade;
         this.cadastroUsuario = cadastroUsuario;
         this.cadastroRestaurante = cadastroRestaurante;
         this.cadastroProduto = cadastroProduto;
         this.cadastroFormaPagamento = cadastroFormaPagamento;
+        this.algaSecurity = algaSecurity;
         this.pedidoRepository = pedidoRepository;
     }
 
@@ -34,7 +37,7 @@ public class EmissaoPedidoService {
     @Transactional
     public Pedido emitir(Pedido pedido) {
         pedido.setCliente(new Usuario());
-        pedido.getCliente().setId(1L);
+        pedido.getCliente().setId(algaSecurity.getUsuarioId());
         validarPedido(pedido);
         validarItens(pedido);
 
