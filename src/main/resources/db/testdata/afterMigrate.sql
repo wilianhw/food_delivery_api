@@ -67,19 +67,40 @@ SELECT setval(pg_get_serial_sequence('grupo', 'id'), 4);
 -- Permissão
 INSERT INTO permissao (id, nome, descricao) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 INSERT INTO permissao (id, nome, descricao) VALUES (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
-SELECT setval(pg_get_serial_sequence('permissao', 'id'), 3);
+INSERT INTO permissao (id, nome, descricao) VALUES (3, 'CONSULTAR_FORMAS_PAGAMENTO', 'Permite consultar formas de pagamento');
+INSERT INTO permissao (id, nome, descricao) VALUES (4, 'EDITAR_FORMAS_PAGAMENTO', 'Permite criar ou editar formas de pagamento');
+INSERT INTO permissao (id, nome, descricao) VALUES (5, 'CONSULTAR_CIDADES', 'Permite consultar cidades');
+INSERT INTO permissao (id, nome, descricao) VALUES (6, 'EDITAR_CIDADES', 'Permite criar ou editar cidades');
+INSERT INTO permissao (id, nome, descricao) VALUES (7, 'CONSULTAR_ESTADOS', 'Permite consultar estados');
+INSERT INTO permissao (id, nome, descricao) VALUES (8, 'EDITAR_ESTADOS', 'Permite criar ou editar estados');
+INSERT INTO permissao (id, nome, descricao) VALUES (9, 'CONSULTAR_USUARIOS', 'Permite consultar usuários');
+INSERT INTO permissao (id, nome, descricao) VALUES (10, 'EDITAR_USUARIOS', 'Permite criar ou editar usuários');
+INSERT INTO permissao (id, nome, descricao) VALUES (11, 'CONSULTAR_RESTAURANTES', 'Permite consultar restaurantes');
+INSERT INTO permissao (id, nome, descricao) VALUES (12, 'EDITAR_RESTAURANTES', 'Permite criar, editar ou gerenciar restaurantes');
+INSERT INTO permissao (id, nome, descricao) VALUES (13, 'CONSULTAR_PRODUTOS', 'Permite consultar produtos');
+INSERT INTO permissao (id, nome, descricao) VALUES (14, 'EDITAR_PRODUTOS', 'Permite criar ou editar produtos');
+INSERT INTO permissao (id, nome, descricao) VALUES (15, 'CONSULTAR_PEDIDOS', 'Permite consultar pedidos');
+INSERT INTO permissao (id, nome, descricao) VALUES (16, 'GERENCIAR_PEDIDOS', 'Permite gerenciar pedidos');
+INSERT INTO permissao (id, nome, descricao) VALUES (17, 'GERAR_RELATORIOS', 'Permite gerar relatórios');
+SELECT setval(pg_get_serial_sequence('permissao', 'id'), 17);
 
--- Grupo permissao
-INSERT INTO grupo_permissao
-(grupo_id, permissao_id)
-VALUES
-(1, 1),
-(1, 2),
-(2, 1),
-(2, 2),
-(3, 1),
-(3, 2),
-(4, 1);
+-- Adiciona todas as permissoes no grupo do gerente
+INSERT INTO grupo_permissao (grupo_id, permissao_id)
+SELECT 1, id FROM permissao;
+
+-- Adiciona permissoes no grupo do vendedor
+INSERT INTO grupo_permissao (grupo_id, permissao_id)
+SELECT 2, id FROM permissao WHERE nome LIKE 'CONSULTAR_%';
+
+INSERT INTO grupo_permissao (grupo_id, permissao_id) VALUES (2, 14);
+
+-- Adiciona permissoes no grupo do auxiliar
+INSERT INTO grupo_permissao (grupo_id, permissao_id)
+SELECT 3, id FROM permissao WHERE nome LIKE 'CONSULTAR_%';
+
+-- Adiciona permissoes no grupo cadastrador
+INSERT INTO grupo_permissao (grupo_id, permissao_id)
+SELECT 4, id FROM permissao WHERE nome LIKE '%_RESTAURANTES' OR nome LIKE '%_PRODUTOS';
 
 -- Restaurante forma pagamento
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES(1, 1);
