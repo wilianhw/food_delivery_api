@@ -1,13 +1,20 @@
 package com.algaworks.algafood.api.controller;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.assembler.UsuarioModelAssembler;
 import com.algaworks.algafood.api.model.UsuarioModel;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/usuarios")
@@ -23,6 +30,7 @@ public class RestauranteUsuarioController {
         this.algaLinks = algaLinks;
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
@@ -38,6 +46,7 @@ public class RestauranteUsuarioController {
         return usuariosRestaurante;
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Void> associar(
             @PathVariable Long restauranteId,
@@ -48,6 +57,7 @@ public class RestauranteUsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<Void> desassociar(
             @PathVariable Long restauranteId,

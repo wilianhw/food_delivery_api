@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.RestauranteBasicoModel;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -40,21 +41,25 @@ public class RestauranteController {
         this.restauranteBasicoModelAssembler = restauranteBasicoModelAssembler;
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping
     public CollectionModel<RestauranteBasicoModel> list() {
         return restauranteBasicoModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/por-nome")
     public Restaurante consultarPorNome(String nome, Long cozinhaId) {
         return restauranteRepository.consultarPorNome(nome, cozinhaId);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/por-query-nomeada")
     public Restaurante consultarPorQueryNomeada(String nome, Long cozinhaId) {
         return restauranteRepository.consultarPorQueryNomeada(nome, cozinhaId);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/por-nome-e-frete")
     public List<Restaurante> consultarPorNomeTaxaFrete(
             String nome,
@@ -64,6 +69,7 @@ public class RestauranteController {
         return restauranteRepository.findWithJPQL(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/por-nome-e-frete-criteria")
     public List<Restaurante> consultarPorNomeTaxaFreteCriteria(
             String nome,
@@ -73,11 +79,13 @@ public class RestauranteController {
         return restauranteRepository.findWithCriteria(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/por-nome-e-frete-sdj")
     public List<Restaurante> consultarPorNomeTaxaFreteSDJ(String nome) {
         return restauranteRepository.findWithFreeFrete(nome);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/{restauranteId}")
     public RestauranteModel buscar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
@@ -85,6 +93,7 @@ public class RestauranteController {
         return restauranteModelAssembler.toModel(restaurante);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteModel cadastrar(@RequestBody @Valid RestauranteInput restauranteInput) {
@@ -97,6 +106,7 @@ public class RestauranteController {
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(
             @PathVariable Long restauranteId,
@@ -113,12 +123,14 @@ public class RestauranteController {
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @DeleteMapping("/{restauranteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void apagar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.apagar(restauranteId);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{restauranteId}/ativo")
     public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.ativar(restauranteId);
@@ -126,6 +138,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -136,6 +149,7 @@ public class RestauranteController {
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -146,6 +160,7 @@ public class RestauranteController {
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @DeleteMapping("/{restauranteId}/ativo")
     public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.inativar(restauranteId);
@@ -153,6 +168,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{restauranteId}/abertura")
     public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
         cadastroRestauranteService.abrir(restauranteId);
@@ -160,6 +176,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{restauranteId}/fechamento")
     public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.fechar(restauranteId);

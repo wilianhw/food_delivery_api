@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.ProdutoModelAssembler;
 import com.algaworks.algafood.api.disassembler.ProdutoInputDisassembler;
 import com.algaworks.algafood.api.model.ProdutoModel;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
@@ -31,16 +32,19 @@ public class RestauranteProdutoController {
         this.produtoRepository = produtoRepository;
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping
     public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId) {
         return produtoModelAssembler.toCollectionModel(produtoRepository.findByRestauranteId(restauranteId));
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultarRestaurantes
     @GetMapping("/{produtoId}")
     public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         return produtoModelAssembler.toModel(cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel cadastrar(@PathVariable Long restauranteId, @RequestBody ProdutoInput produtoInput) {
@@ -52,6 +56,7 @@ public class RestauranteProdutoController {
         return produtoModelAssembler.toModel(cadastroProdutoService.salvar(produto));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
     @PutMapping("/{produtoId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel atualizar(
