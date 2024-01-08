@@ -1,17 +1,30 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.core.validation.ValorZeroIncluiDescricao;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.algaworks.algafood.core.validation.ValorZeroIncluiDescricao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @ValorZeroIncluiDescricao(
         valorField = "taxaFrete",
@@ -65,7 +78,7 @@ public class Restaurante {
     @JoinTable(name = "restaurante_usuario_responsavel",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-    private Set<Usuario> usuarios = new HashSet<>();
+    private Set<Usuario> responsaveis = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
@@ -96,11 +109,11 @@ public class Restaurante {
     }
 
     public void adicionarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
+        responsaveis.add(usuario);
     }
 
     public void removerUsuario(Usuario usuario) {
-        usuarios.remove(usuario);
+        responsaveis.remove(usuario);
     }
 
     public boolean aceitaFormaPagamento(FormaPagamento formaPagamento) {

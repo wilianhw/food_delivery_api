@@ -102,11 +102,12 @@ INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VAL
 
 -- Usuario
 INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES
-(1, 'João da Silva', 'wilianhenrique.souza94@gmail.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
+(1, 'Wilian Henrique', 'wilianhenrique.souza94@gmail.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp);
-SELECT setval(pg_get_serial_sequence('usuario', 'id'), 4);
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '$2y$10$mXeRpvONX/9.NU1G/npCXuEUzdVe4kp5yTm8F9vZ2fv0hTtxvVS9W', current_timestamp),
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '$2y$12$NSsM4gEOR7MKogflKR7GMeYugkttjNhAJMvFdHrBLaLp2HzlggP5W', current_timestamp);
+SELECT setval(pg_get_serial_sequence('usuario', 'id'), 5);
 
 --Usuário grupo
 INSERT INTO usuario_grupo
@@ -130,7 +131,9 @@ VALUES
 (2, 3),
 (3, 1),
 (3, 2),
-(3, 3);
+(3, 3),
+(1, 5),
+(3, 5);
 
 -- Pedido
 INSERT INTO pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep,

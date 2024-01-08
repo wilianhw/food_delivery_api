@@ -12,13 +12,13 @@ public @interface CheckSecurity {
 
     public @interface Cozinhas {
 
-        @PreAuthorize("hasAuthority('SCOPE_READ') && isAuthenticated()")
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultarCozinhas {
         }
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') && hasAuthority('EDITAR_COZINHAS')")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_COZINHAS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditarCozinhas {
@@ -26,7 +26,7 @@ public @interface CheckSecurity {
     }
 
     public @interface Restaurantes {
-        @PreAuthorize("hasAuthority('SCOPE_READ') && isAuthenticated())")
+        @PreAuthorize("hasAuthority('SCOPE_READ') && isAuthenticated()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultarRestaurantes {
@@ -35,7 +35,15 @@ public @interface CheckSecurity {
         @PreAuthorize("hasAuthority('SCOPE_WRITE') && hasAuthority('EDITAR_RESTAURANTES')")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface PodeEditarRestaurantes {
+        public @interface PodeGerenciarCadastro {
+        }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') && " +
+                "hasAuthority('EDITAR_RESTAURANTES') ||" +
+                "@algaSecurity.gerenciaRestaurante(#restauranteId)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeGerenciarFuncionamento {
         }
     }
 }

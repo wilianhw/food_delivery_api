@@ -93,7 +93,7 @@ public class RestauranteController {
         return restauranteModelAssembler.toModel(restaurante);
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteModel cadastrar(@RequestBody @Valid RestauranteInput restauranteInput) {
@@ -106,7 +106,7 @@ public class RestauranteController {
         }
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(
             @PathVariable Long restauranteId,
@@ -123,14 +123,14 @@ public class RestauranteController {
         }
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @DeleteMapping("/{restauranteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void apagar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.apagar(restauranteId);
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PutMapping("/{restauranteId}/ativo")
     public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.ativar(restauranteId);
@@ -138,7 +138,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -149,7 +149,7 @@ public class RestauranteController {
         }
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
@@ -160,7 +160,7 @@ public class RestauranteController {
         }
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @DeleteMapping("/{restauranteId}/ativo")
     public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.inativar(restauranteId);
@@ -168,7 +168,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PutMapping("/{restauranteId}/abertura")
     public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
         cadastroRestauranteService.abrir(restauranteId);
@@ -176,7 +176,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PutMapping("/{restauranteId}/fechamento")
     public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
         cadastroRestauranteService.fechar(restauranteId);

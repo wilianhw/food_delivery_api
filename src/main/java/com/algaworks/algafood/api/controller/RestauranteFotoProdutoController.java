@@ -48,7 +48,7 @@ public class RestauranteFotoProdutoController {
         this.fotoStorageService = fotoStorageService;
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizarFoto(
             @PathVariable Long restauranteId,
@@ -112,7 +112,7 @@ public class RestauranteFotoProdutoController {
         }
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(

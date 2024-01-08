@@ -45,7 +45,7 @@ public class RestauranteFormaPagamentoController {
         return formasPagamentoModel;
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{formaPagamentoId}")
     public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
         cadastroRestauranteService.desassociar(restauranteId, formaPagamentoId);
@@ -53,7 +53,7 @@ public class RestauranteFormaPagamentoController {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{formaPagamentoId}")
     public ResponseEntity<Void> associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
         cadastroRestauranteService.associar(restauranteId, formaPagamentoId);

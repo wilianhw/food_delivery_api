@@ -15,4 +15,6 @@ public interface RestauranteRepository extends
     Restaurante consultarPorNome(String nome, @Param("id") Long cozinhaId);
 
     Restaurante consultarPorQueryNomeada(String nome, @Param("id") Long cozinhaId);
+
+    boolean existsResponsavel(Long restauranteId, Long usuarioId);
 }

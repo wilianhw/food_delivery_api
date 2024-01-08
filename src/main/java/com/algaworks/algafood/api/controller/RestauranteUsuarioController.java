@@ -35,7 +35,7 @@ public class RestauranteUsuarioController {
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
-        CollectionModel<UsuarioModel> usuariosRestaurante = usuarioModelAssembler.toCollectionModel(restaurante.getUsuarios())
+        CollectionModel<UsuarioModel> usuariosRestaurante = usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis())
                 .removeLinks()
                 .add(algaLinks.linkToResponsaveisRestaurante(restauranteId))
                 .add(algaLinks.linkToResponsavelRestauranteAssociar(restauranteId, "associar"));
@@ -46,7 +46,7 @@ public class RestauranteUsuarioController {
         return usuariosRestaurante;
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Void> associar(
             @PathVariable Long restauranteId,
@@ -57,7 +57,7 @@ public class RestauranteUsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<Void> desassociar(
             @PathVariable Long restauranteId,

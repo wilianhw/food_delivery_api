@@ -44,7 +44,7 @@ public class RestauranteProdutoController {
         return produtoModelAssembler.toModel(cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId));
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel cadastrar(@PathVariable Long restauranteId, @RequestBody ProdutoInput produtoInput) {
@@ -56,7 +56,7 @@ public class RestauranteProdutoController {
         return produtoModelAssembler.toModel(cadastroProdutoService.salvar(produto));
     }
 
-    @CheckSecurity.Restaurantes.PodeEditarRestaurantes
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{produtoId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel atualizar(
