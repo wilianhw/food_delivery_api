@@ -49,7 +49,6 @@ public @interface CheckSecurity {
     }
 
     public @interface Pedidos {
-
         @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or " +
                 "@algaSecurity.getUsuarioId() == returnObject.cliente.id or " +
@@ -79,5 +78,17 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface PodeGerenciarPedidos {
         }
+    }
+
+    public @interface FormaPagamento {
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar{}
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeEditar{}
     }
 }
