@@ -58,6 +58,7 @@ public class PedidoController {
         return pedidoModelAssembler.toModel(emissaoPedidoService.buscarOuFalhar(codigoPedido));
     }
 
+    @CheckSecurity.Pedidos.PodeCriar
     @PostMapping
     public PedidoModel cadastrar(@RequestBody PedidoInput pedidoInput) {
         Pedido pedido = pedidoInputDisassembler.toDomainObject(pedidoInput);

@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ public class FluxoPedidoController {
         this.fluxoPedido = fluxoPedido;
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/confirmacao")
     public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
         fluxoPedido.confirmar(codigoPedido);
@@ -24,6 +26,7 @@ public class FluxoPedidoController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/entrega")
     public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {
         fluxoPedido.entregar(codigoPedido);
@@ -31,6 +34,7 @@ public class FluxoPedidoController {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @PutMapping("/cancelamento")
     public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {
         fluxoPedido.cancelar(codigoPedido);
