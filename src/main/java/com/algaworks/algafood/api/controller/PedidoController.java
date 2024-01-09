@@ -44,6 +44,7 @@ public class PedidoController {
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
+    @CheckSecurity.Pedidos.PodePesquisar
     @GetMapping
     public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, Pageable pageable) {
         Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpec.usandoFiltro(filtro), pageable);
