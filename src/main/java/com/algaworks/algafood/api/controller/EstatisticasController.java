@@ -1,15 +1,17 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.AlgaLinks;
-import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
-import com.algaworks.algafood.domain.model.dto.VendaDiaria;
-import com.algaworks.algafood.domain.service.VendaQueryService;
+import java.util.List;
+
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.algaworks.algafood.api.AlgaLinks;
+import com.algaworks.algafood.core.security.CheckSecurity;
+import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.model.dto.VendaDiaria;
+import com.algaworks.algafood.domain.service.VendaQueryService;
 
 @RestController
 @RequestMapping("/estatisticas")
@@ -23,11 +25,13 @@ public class EstatisticasController {
         this.algaLinks = algaLinks;
     }
 
+    @CheckSecurity.Estatisticas.PodeConsultar
     @GetMapping("/vendas-diarias")
     public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro) {
         return vendaQueryService.consultarVendasDiarias(filtro);
     }
 
+    @CheckSecurity.Estatisticas.PodeConsultar
     @GetMapping
     public EstatisticaModel estatisticas() {
         EstatisticaModel estatisticaModel = new EstatisticaModel();
