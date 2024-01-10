@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.api.model.input.SenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
@@ -30,11 +31,13 @@ public class UsuarioController {
         this.cadastroUsuarioService = cadastroUsuarioService;
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeConsultar
     @GetMapping
     public CollectionModel<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeConsultar
     @GetMapping("/{usuarioId}")
     public UsuarioModel buscar(@PathVariable Long usuarioId) {
         return usuarioModelAssembler.toModel(cadastroUsuarioService.buscarOuFalhar(usuarioId));
@@ -48,6 +51,7 @@ public class UsuarioController {
         return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuario));
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeAlterarUsuario
     @PutMapping("/{usuarioId}")
     public UsuarioModel atualizar(
             @PathVariable Long usuarioId,
@@ -59,12 +63,14 @@ public class UsuarioController {
         return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuarioAtual));
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeEditar
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long usuarioId) {
         cadastroUsuarioService.deletar(usuarioId);
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeAlterarPropriaSenha
     @PutMapping("/{usuarioId}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizarSenha(

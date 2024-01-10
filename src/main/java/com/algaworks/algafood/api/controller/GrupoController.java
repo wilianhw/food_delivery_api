@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
 import com.algaworks.algafood.api.disassembler.GrupoDisassembler;
 import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.api.model.input.GrupoInput;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
@@ -28,16 +29,19 @@ public class GrupoController {
         this.cadastroGrupoService = cadastroGrupoService;
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeConsultar
     @GetMapping
     public CollectionModel<GrupoModel> listar() {
         return grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeConsultar
     @GetMapping("/{grupoId}")
     public GrupoModel buscar(@PathVariable Long grupoId) {
         return grupoModelAssembler.toModel(cadastroGrupoService.buscarOuFalhar(grupoId));
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GrupoModel cadastrar(@RequestBody @Valid GrupoInput grupoInput) {
@@ -46,6 +50,7 @@ public class GrupoController {
         return grupoModelAssembler.toModel(cadastroGrupoService.salvar(grupo));
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeEditar
     @PutMapping("/{grupoId}")
     public GrupoModel atualizar(
             @PathVariable Long grupoId,
@@ -57,6 +62,7 @@ public class GrupoController {
         return grupoModelAssembler.toModel(cadastroGrupoService.salvar(grupoAtual));
     }
 
+    @CheckSecurity.UsuarioGruposPermissoes.PodeEditar
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long grupoId) {

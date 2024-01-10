@@ -69,8 +69,8 @@ INSERT INTO permissao (id, nome, descricao) VALUES (2, 'EDITAR_COZINHAS', 'Permi
 INSERT INTO permissao (id, nome, descricao) VALUES (4, 'EDITAR_FORMAS_PAGAMENTO', 'Permite criar ou editar formas de pagamento');
 INSERT INTO permissao (id, nome, descricao) VALUES (6, 'EDITAR_CIDADES', 'Permite criar ou editar cidades');
 INSERT INTO permissao (id, nome, descricao) VALUES (8, 'EDITAR_ESTADOS', 'Permite criar ou editar estados');
-INSERT INTO permissao (id, nome, descricao) VALUES (9, 'CONSULTAR_USUARIOS', 'Permite consultar usuários');
-INSERT INTO permissao (id, nome, descricao) VALUES (10, 'EDITAR_USUARIOS', 'Permite criar ou editar usuários');
+INSERT INTO permissao (id, nome, descricao) VALUES (9, 'CONSULTAR_USUARIOS_GRUPOS_PERMISSOES', 'Permite consultar usuários');
+INSERT INTO permissao (id, nome, descricao) VALUES (10, 'EDITAR_USUARIOS_GRUPOS_PERMISSOES', 'Permite criar ou editar usuários');
 INSERT INTO permissao (id, nome, descricao) VALUES (12, 'EDITAR_RESTAURANTES', 'Permite criar, editar ou gerenciar restaurantes');
 INSERT INTO permissao (id, nome, descricao) VALUES (15, 'CONSULTAR_PEDIDOS', 'Permite consultar pedidos');
 INSERT INTO permissao (id, nome, descricao) VALUES (16, 'GERENCIAR_PEDIDOS', 'Permite gerenciar pedidos');
