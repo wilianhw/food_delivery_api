@@ -16,6 +16,7 @@ DELETE FROM pedido;
 DELETE FROM item_pedido;
 DELETE FROM restaurante_usuario_responsavel;
 DELETE FROM foto_produto;
+DELETE FROM oauth_client_details;
 
 SET session_replication_role = 'origin';
 
@@ -159,3 +160,37 @@ VALUES (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 INSERT INTO item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
 VALUES (3, 2, 6, 1, 79, 79, 'Ao ponto');
 SELECT setval(pg_get_serial_sequence('item_pedido', 'id'), 3);
+
+-- Inserção de clientes
+insert into oauth_client_details (
+  client_id, resource_ids, client_secret,
+  scope, authorized_grant_types, web_server_redirect_uri, authorities,
+  access_token_validity, refresh_token_validity, autoapprove
+)
+values (
+  'algafood-web', null, '$2y$12$w3igMjsfS5XoAYuowoH3C.54vRFWlcXSHLjX7MwF990Kc2KKKh72e',
+  'READ,WRITE', 'authorization_code', 'http://www.foodanalytics.local:8082', null,
+  60 * 60 * 6, 60 * 24 * 60 * 60, true
+);
+
+insert into oauth_client_details (
+  client_id, resource_ids, client_secret,
+  scope, authorized_grant_types, web_server_redirect_uri, authorities,
+  access_token_validity, refresh_token_validity, autoapprove
+)
+values (
+  'foodanalytics', null, '$2y$12$fahbH37S2pyk1RPuIHKP.earzFmgAJJGo26rE.59vf4wwiiTKHnzO',
+  'READ,WRITE', 'authorization_code', 'http://www.foodanalytics.local:8082', null,
+  null, null, null
+);
+
+insert into oauth_client_details (
+  client_id, resource_ids, client_secret,
+  scope, authorized_grant_types, web_server_redirect_uri, authorities,
+  access_token_validity, refresh_token_validity, autoapprove
+)
+values (
+  'faturamento', null, '$2y$12$fHixriC7yXX/i1/CmpnGH.RFyK/l5YapLCFOEbIktONjE8ZDykSnu',
+  'READ,WRITE', 'client_credentials', null, 'CONSULTAR_PEDIDOS,GERAR_RELATORIOS',
+  null, null, null
+);
