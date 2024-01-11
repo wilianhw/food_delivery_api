@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,8 +21,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ResourceServerConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+    public SecurityFilterChain resourceServerFilterChain(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
+        http
+                .userDetailsService(userDetailsService)
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
@@ -29,10 +31,10 @@ public class ResourceServerConfig {
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2Resource ->
                         oauth2Resource.jwt(jwtConfigurer -> jwtConfigurer
-                                .jwkSetUri("http://localhost:8082/oauth2/jwks")
+                                .jwkSetUri("http://localhost:8080/oauth2/jwks")
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                        ))
-                .build();
+                        ));
+        return http.formLogin(Customizer.withDefaults()).build();
     }
 
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
