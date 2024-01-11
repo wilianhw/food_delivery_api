@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.assembler;
 import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.controller.RestauranteController;
 import com.algaworks.algafood.api.model.RestauranteBasicoModel;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -13,11 +14,13 @@ public class RestauranteBasicoModelAssembler extends RepresentationModelAssemble
 
     private final ModelMapper modelMapper;
     private final AlgaLinks algaLinks;
+    private final AlgaSecurity algaSecurity;
 
-    public RestauranteBasicoModelAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    public RestauranteBasicoModelAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(RestauranteController.class, RestauranteBasicoModel.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
 
@@ -26,9 +29,15 @@ public class RestauranteBasicoModelAssembler extends RepresentationModelAssemble
         RestauranteBasicoModel restauranteBasicoModel = createModelWithId(restaurante.getId(), restaurante);
         modelMapper.map(restaurante, restauranteBasicoModel);
 
-        restauranteBasicoModel.getCozinha().add(
-                algaLinks.linkToCozinhas(restauranteBasicoModel.getCozinha().getId()));
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            restauranteBasicoModel.add(
+                    algaLinks.linkToRestaurantes("restaurantes"));
+        }
 
+        if (algaSecurity.podeConsultarCozinhas()) {
+            restauranteBasicoModel.getCozinha().add(
+                    algaLinks.linkToCozinhas(restauranteBasicoModel.getCozinha().getId()));
+        }
 
         return restauranteBasicoModel;
     }

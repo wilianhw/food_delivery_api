@@ -1,24 +1,28 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.AlgaLinks;
-import com.algaworks.algafood.api.controller.PermissaoController;
-import com.algaworks.algafood.api.model.PermissaoModel;
-import com.algaworks.algafood.domain.model.Permissao;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
+
+import com.algaworks.algafood.api.AlgaLinks;
+import com.algaworks.algafood.api.controller.PermissaoController;
+import com.algaworks.algafood.api.model.PermissaoModel;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.domain.model.Permissao;
 
 @Component
 public class PermissaoModelAssembler extends RepresentationModelAssemblerSupport<Permissao, PermissaoModel> {
 
     private final ModelMapper modelMapper;
     private final AlgaLinks algaLinks;
+    private final AlgaSecurity algaSecurity;
 
-    public PermissaoModelAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    public PermissaoModelAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(PermissaoController.class, PermissaoModel.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -31,7 +35,12 @@ public class PermissaoModelAssembler extends RepresentationModelAssemblerSupport
 
     @Override
     public CollectionModel<PermissaoModel> toCollectionModel(Iterable<? extends Permissao> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToPermissoes("permissoes"));
+        CollectionModel<PermissaoModel> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+            collectionModel.add(algaLinks.linkToPermissoes("permissoes"));
+        }
+
+        return collectionModel;
     }
 }
