@@ -1,8 +1,19 @@
 package com.algaworks.algafood.infrastructure.repository;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CustomizedRestauranteRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -10,18 +21,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comFreteGratis;
-import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpec.comNomeSemelhante;
 
 @Repository
 public class RestauranteRepositoryImpl implements CustomizedRestauranteRepository {
@@ -29,9 +28,12 @@ public class RestauranteRepositoryImpl implements CustomizedRestauranteRepositor
     @PersistenceContext
     private EntityManager manager;
 
-    @Autowired
+    private final RestauranteRepository restauranteRepository;
+
     @Lazy
-    private RestauranteRepository restauranteRepository;
+    public RestauranteRepositoryImpl(RestauranteRepository restauranteRepository) {
+        this.restauranteRepository = restauranteRepository;
+    }
 
     public List<Restaurante> findWithJPQL(String nome,
                                           BigDecimal taxaFreteInicial,
@@ -59,7 +61,7 @@ public class RestauranteRepositoryImpl implements CustomizedRestauranteRepositor
 
         TypedQuery<Restaurante> query = manager.createQuery(jpql.toString(), Restaurante.class);
 
-        parametros.forEach((chave, valor) -> query.setParameter(chave, valor));
+        parametros.forEach(query::setParameter);
 
         return query.getResultList();
     }
@@ -89,6 +91,6 @@ public class RestauranteRepositoryImpl implements CustomizedRestauranteRepositor
 
     @Override
     public List<Restaurante> findWithFreeFrete(String nome) {
-        return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+        return restauranteRepository.findAll(RestauranteSpec.comFreteGratis().and(RestauranteSpec.comNomeSemelhante(nome)));
     }
 }

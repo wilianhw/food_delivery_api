@@ -1,8 +1,9 @@
 package com.algaworks.algafood.domain.listener;
 
-import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.service.EnvioEmailService;
+import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 

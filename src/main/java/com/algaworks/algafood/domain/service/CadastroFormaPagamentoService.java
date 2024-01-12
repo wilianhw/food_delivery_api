@@ -1,9 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.domain.exception.FormaPagamentoEmUsoException;
-import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
+import com.algaworks.algafood.domain.exception.FormaPagamentoEmUsoException;
+import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

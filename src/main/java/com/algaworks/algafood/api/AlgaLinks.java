@@ -1,7 +1,25 @@
 package com.algaworks.algafood.api;
 
-import com.algaworks.algafood.api.controller.*;
+import com.algaworks.algafood.api.v1.controller.EstadoController;
+import com.algaworks.algafood.api.v1.controller.FluxoPedidoController;
+import com.algaworks.algafood.api.v1.controller.PedidoController;
+import com.algaworks.algafood.api.v1.controller.RestauranteController;
+import com.algaworks.algafood.api.v1.controller.RestauranteFormaPagamentoController;
+import com.algaworks.algafood.api.v1.controller.RestauranteFotoProdutoController;
+import com.algaworks.algafood.api.v1.controller.UsuarioGrupoController;
+import com.algaworks.algafood.api.v1.controller.CidadeController;
+import com.algaworks.algafood.api.v1.controller.CozinhaController;
+import com.algaworks.algafood.api.v1.controller.EstatisticasController;
+import com.algaworks.algafood.api.v1.controller.FormaPagamentoController;
+import com.algaworks.algafood.api.v1.controller.GrupoController;
+import com.algaworks.algafood.api.v1.controller.GrupoPermissaoController;
+import com.algaworks.algafood.api.v1.controller.PermissaoController;
+import com.algaworks.algafood.api.v1.controller.RestauranteProdutoController;
+import com.algaworks.algafood.api.v1.controller.RestauranteUsuarioController;
+import com.algaworks.algafood.api.v1.controller.UsuarioController;
+
 import org.springframework.hateoas.*;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -31,7 +49,7 @@ public class AlgaLinks {
     }
 
     public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
-        return linkTo(methodOn(FluxoPedidoController.class)
+        return WebMvcLinkBuilder.linkTo(methodOn(FluxoPedidoController.class)
                 .confirmar(codigoPedido)).withRel(rel);
     }
 
@@ -63,7 +81,7 @@ public class AlgaLinks {
     }
 
     public Link linkToUsuarioGruposDesassociacao(Long usuarioId, Long grupoId, String rel) {
-        return linkTo(methodOn(UsuarioGrupoController.class)
+        return WebMvcLinkBuilder.linkTo(methodOn(UsuarioGrupoController.class)
                 .desassociarGrupo(usuarioId, grupoId)).withRel(rel);
     }
 
@@ -133,7 +151,7 @@ public class AlgaLinks {
     }
 
     public Link linkToEstado(Long estadoId) {
-        return linkTo(methodOn(EstadoController.class).buscar(estadoId)).withSelfRel();
+        return WebMvcLinkBuilder.linkTo(methodOn(EstadoController.class).buscar(estadoId)).withSelfRel();
     }
 
     public Link linkToEstado(String rel) {
@@ -162,7 +180,7 @@ public class AlgaLinks {
     }
 
     public Link linkToRestaurnateFormasPagamento(Long restauranteId, String rel) {
-        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+        return WebMvcLinkBuilder.linkTo(methodOn(RestauranteFormaPagamentoController.class)
                 .listar(restauranteId)).withRel(rel);
     }
 
