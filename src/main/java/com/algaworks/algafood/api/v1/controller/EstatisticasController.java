@@ -2,7 +2,6 @@ package com.algaworks.algafood.api.v1.controller;
 
 import java.util.List;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,7 @@ import com.algaworks.algafood.domain.service.VendaQueryService;
 
 @RestController
 @RequestMapping("/v1/estatisticas")
-public class EstatisticasController {
+public class EstatisticasController implements com.algaworks.algafood.api.v1.controller.openapi.controller.EstatisticasControllerOpenApi {
 
     private final VendaQueryService vendaQueryService;
     private final AlgaLinks algaLinks;
@@ -41,6 +40,4 @@ public class EstatisticasController {
         return estatisticaModel;
     }
 
-    public static class EstatisticaModel extends RepresentationModel<EstatisticaModel> {
-    }
 }

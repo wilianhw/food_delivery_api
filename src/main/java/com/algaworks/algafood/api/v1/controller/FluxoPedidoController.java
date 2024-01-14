@@ -1,16 +1,17 @@
 package com.algaworks.algafood.api.v1.controller;
 
-import com.algaworks.algafood.core.security.CheckSecurity;
-import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.core.security.CheckSecurity;
+import com.algaworks.algafood.domain.service.FluxoPedidoService;
+
 @RestController
 @RequestMapping("/v1/pedidos/{codigoPedido}")
-public class FluxoPedidoController {
+public class FluxoPedidoController implements com.algaworks.algafood.api.v1.controller.openapi.controller.FluxoPedidoControllerOpenApi {
 
     private final FluxoPedidoService fluxoPedido;
 

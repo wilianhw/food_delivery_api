@@ -16,7 +16,7 @@ import com.algaworks.algafood.domain.repository.PermissaoRepository;
 
 @RestController
 @RequestMapping(path = "/v1/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
-public class PermissaoController {
+public class PermissaoController implements com.algaworks.algafood.api.v1.controller.openapi.controller.PermissaoControllerOpenApi {
 
     private final PermissaoRepository permissaoRepository;
     private final PermissaoModelAssembler permissaoModelAssembler;

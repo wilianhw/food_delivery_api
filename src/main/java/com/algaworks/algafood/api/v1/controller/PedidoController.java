@@ -26,7 +26,7 @@ import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpec;
 
 @RestController
 @RequestMapping("/v1/pedidos")
-public class PedidoController {
+public class PedidoController implements com.algaworks.algafood.api.v1.controller.openapi.controller.PedidoControllerOpenApi {
 
     private final PedidoModelAssembler pedidoModelAssembler;
     private final PedidoInputDisassembler pedidoInputDisassembler;

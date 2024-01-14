@@ -18,7 +18,7 @@ import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping("/v1/restaurantes/{restauranteId}/usuarios")
-public class RestauranteUsuarioController {
+public class RestauranteUsuarioController implements com.algaworks.algafood.api.v1.controller.openapi.controller.RestauranteUsuarioControllerOpenApi {
 
     private final UsuarioModelAssembler usuarioModelAssembler;
     private final CadastroRestauranteService cadastroRestauranteService;

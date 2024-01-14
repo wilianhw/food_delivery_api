@@ -1,15 +1,15 @@
 package com.algaworks.algafood.api.v1.assembler;
 
-import com.algaworks.algafood.api.v1.model.CidadeModel;
-import com.algaworks.algafood.api.AlgaLinks;
-import com.algaworks.algafood.api.v1.controller.CidadeController;
-import com.algaworks.algafood.core.security.AlgaSecurity;
-import com.algaworks.algafood.domain.model.Cidade;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
+
+import com.algaworks.algafood.api.AlgaLinks;
+import com.algaworks.algafood.api.v1.controller.CidadeController;
+import com.algaworks.algafood.api.v1.model.CidadeModel;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.domain.model.Cidade;
 
 @Component
 public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeModel> {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.ResourceUriHelper;
 import com.algaworks.algafood.api.v1.assembler.CidadeModelAssembler;
+import com.algaworks.algafood.api.v1.controller.openapi.controller.CidadeControllerOpenApi;
 import com.algaworks.algafood.api.v1.disassembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.v1.model.CidadeModel;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
@@ -28,7 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 
     private final CidadeModelAssembler cidadeModelAssembler;
     private final CidadeInputDisassembler cidadeInputDisassembler;

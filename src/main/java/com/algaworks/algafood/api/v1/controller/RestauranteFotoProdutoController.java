@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteFotoProdutoController {
+public class RestauranteFotoProdutoController implements com.algaworks.algafood.api.v1.controller.openapi.controller.RestauranteFotoProdutoControllerOpenApi {
 
     private final FotoProdutoModelAssembler fotoProdutoModelAssembler;
     private final CadastroProdutoService cadastroProduto;
@@ -122,12 +122,4 @@ public class RestauranteFotoProdutoController {
         catalogoFotoProduto.excluir(restauranteId, produtoId);
     }
 
-    private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
-        boolean compativel = mediaTypesAceitas.stream()
-                .anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
-
-        if (!compativel) {
-            throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
-        }
-    }
 }

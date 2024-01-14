@@ -1,5 +1,16 @@
 package com.algaworks.algafood.api.v1.controller;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.algaworks.algafood.api.v1.assembler.ProdutoModelAssembler;
 import com.algaworks.algafood.api.v1.disassembler.ProdutoInputDisassembler;
 import com.algaworks.algafood.api.v1.model.ProdutoModel;
@@ -11,13 +22,9 @@ import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/v1/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements com.algaworks.algafood.api.v1.controller.openapi.controller.RestauranteProdutoControllerOpenApi {
 
     private final ProdutoModelAssembler produtoModelAssembler;
     private final ProdutoInputDisassembler produtoInputDisassembler;

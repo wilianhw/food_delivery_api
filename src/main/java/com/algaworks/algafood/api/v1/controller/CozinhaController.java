@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.v1.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.v1.disassembler.CozinhaInputDisassembler;
-import com.algaworks.algafood.api.v1.model.input.CozinhaInput;
 import com.algaworks.algafood.api.v1.model.CozinhaModel;
+import com.algaworks.algafood.api.v1.model.input.CozinhaInput;
 import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/cozinhas")
-public class CozinhaController {
+public class CozinhaController implements com.algaworks.algafood.api.v1.controller.openapi.controller.CozinhaControllerOpenApi {
 
     private final CozinhaModelAssembler cozinhaModelAssembler;
     private final CozinhaInputDisassembler cozinhaInputDisassembler;
