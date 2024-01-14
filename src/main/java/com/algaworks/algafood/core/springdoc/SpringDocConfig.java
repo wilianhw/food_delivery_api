@@ -1,5 +1,7 @@
 package com.algaworks.algafood.core.springdoc;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,8 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -37,7 +41,10 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
         )))
 public class SpringDocConfig {
 
-    private static final String RECURSO_NAO_ENCONTRADO = "Recurso não encontrado";
+    public static final String NOT_FOUND_RESPONSE = "NotFoundResponse";
+    public static final String BAD_REQUEST_RESPONSE = "BadRequestResponse";
+    public static final String NOT_ACCEPTABLE_RESPONSE = "NotAcceptableResponse";
+    public static final String INTERNAL_ERROR_RESPONSE = "InternalErrorResponse";
 
     @Bean
     public OpenAPI openAPI() {
@@ -53,9 +60,10 @@ public class SpringDocConfig {
                 ).externalDocs(new ExternalDocumentation()
                         .description("AlgaWorks")
                         .url("https://algaworks.com")
-                ).components(new Components().schemas(
-                        gerarSchemas()
-                ));
+                ).components(new Components()
+                        .schemas(gerarSchemas())
+                        .responses(gerarResponses())
+                );
     }
 
     @Bean
@@ -66,21 +74,21 @@ public class SpringDocConfig {
                 .forEach(pathItem -> pathItem.readOperationsMap()
                         .forEach((httpMethod, operation) -> {
                             ApiResponses responses = operation.getResponses();
-                            responses.addApiResponse("500", new ApiResponse().description("Erro interno no servidor"));
+                            responses.addApiResponse("500", new ApiResponse().$ref(INTERNAL_ERROR_RESPONSE));
 
                             switch (httpMethod) {
                                 case GET -> {
-                                    responses.addApiResponse("404", new ApiResponse().description(RECURSO_NAO_ENCONTRADO));
-                                    responses.addApiResponse("406", new ApiResponse().description("Recurso não possui representação que poderia ser aceita pelo consumidor"));
+                                    responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
+                                    responses.addApiResponse("406", new ApiResponse().$ref(NOT_ACCEPTABLE_RESPONSE));
                                 }
                                 case POST ->
-                                        responses.addApiResponse("400", new ApiResponse().description("Requisição inválida"));
+                                        responses.addApiResponse("400", new ApiResponse().$ref(BAD_REQUEST_RESPONSE));
                                 case PUT -> {
-                                    responses.addApiResponse("400", new ApiResponse().description("Requisição inválida"));
-                                    responses.addApiResponse("404", new ApiResponse().description(RECURSO_NAO_ENCONTRADO));
+                                    responses.addApiResponse("400", new ApiResponse().$ref(BAD_REQUEST_RESPONSE));
+                                    responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
                                 }
                                 case DELETE ->
-                                        responses.addApiResponse("404", new ApiResponse().description(RECURSO_NAO_ENCONTRADO));
+                                        responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
                                 default -> {
                                 }
                             }
@@ -97,5 +105,19 @@ public class SpringDocConfig {
         schemaMap.putAll(problemObjectSchema);
 
         return schemaMap;
+    }
+
+    private Map<String, ApiResponse> gerarResponses() {
+        final Map<String, ApiResponse> apiResponseMap = new HashMap<>();
+
+        Content content = new Content()
+                .addMediaType(APPLICATION_JSON_VALUE, new MediaType().schema(new Schema<Problem>().$ref("Problema")));
+
+        apiResponseMap.put(BAD_REQUEST_RESPONSE, new ApiResponse().description("Requisição inválida").content(content));
+        apiResponseMap.put(NOT_FOUND_RESPONSE, new ApiResponse().description("Recurso não encontrado").content(content));
+        apiResponseMap.put(NOT_ACCEPTABLE_RESPONSE, new ApiResponse().description("Recurso não possui representação que poderia ser aceita pelo consumidor").content(content));
+        apiResponseMap.put(INTERNAL_ERROR_RESPONSE, new ApiResponse().description("Erro interno no servidor").content(content));
+
+        return apiResponseMap;
     }
 }
