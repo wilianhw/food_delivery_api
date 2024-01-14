@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Content;
@@ -41,7 +43,6 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
         )))
 public class SpringDocConfig {
 
-    public static final String NOT_FOUND_RESPONSE = "NotFoundResponse";
     public static final String BAD_REQUEST_RESPONSE = "BadRequestResponse";
     public static final String NOT_ACCEPTABLE_RESPONSE = "NotAcceptableResponse";
     public static final String INTERNAL_ERROR_RESPONSE = "InternalErrorResponse";
@@ -76,21 +77,10 @@ public class SpringDocConfig {
                             ApiResponses responses = operation.getResponses();
                             responses.addApiResponse("500", new ApiResponse().$ref(INTERNAL_ERROR_RESPONSE));
 
-                            switch (httpMethod) {
-                                case GET -> {
-                                    responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
-                                    responses.addApiResponse("406", new ApiResponse().$ref(NOT_ACCEPTABLE_RESPONSE));
-                                }
-                                case POST ->
-                                        responses.addApiResponse("400", new ApiResponse().$ref(BAD_REQUEST_RESPONSE));
-                                case PUT -> {
-                                    responses.addApiResponse("400", new ApiResponse().$ref(BAD_REQUEST_RESPONSE));
-                                    responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
-                                }
-                                case DELETE ->
-                                        responses.addApiResponse("404", new ApiResponse().$ref(NOT_FOUND_RESPONSE));
-                                default -> {
-                                }
+                            if (Objects.requireNonNull(httpMethod) == PathItem.HttpMethod.GET) {
+                                responses.addApiResponse("406", new ApiResponse().$ref(NOT_ACCEPTABLE_RESPONSE));
+                            } else {
+                                responses.addApiResponse("400", new ApiResponse().$ref(BAD_REQUEST_RESPONSE));
                             }
                         }));
     }
@@ -114,7 +104,6 @@ public class SpringDocConfig {
                 .addMediaType(APPLICATION_JSON_VALUE, new MediaType().schema(new Schema<Problem>().$ref("Problema")));
 
         apiResponseMap.put(BAD_REQUEST_RESPONSE, new ApiResponse().description("Requisição inválida").content(content));
-        apiResponseMap.put(NOT_FOUND_RESPONSE, new ApiResponse().description("Recurso não encontrado").content(content));
         apiResponseMap.put(NOT_ACCEPTABLE_RESPONSE, new ApiResponse().description("Recurso não possui representação que poderia ser aceita pelo consumidor").content(content));
         apiResponseMap.put(INTERNAL_ERROR_RESPONSE, new ApiResponse().description("Erro interno no servidor").content(content));
 

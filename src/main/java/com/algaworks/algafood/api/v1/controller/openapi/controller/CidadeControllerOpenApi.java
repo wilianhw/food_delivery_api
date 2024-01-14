@@ -18,11 +18,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Cidades", description = "Gerencia as cidades")
 public interface CidadeControllerOpenApi {
 
-    @Operation(summary = "Busca uma cidade por Id", responses = {
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "ID da cidade inválido",
-                    content = @Content(schema = @Schema(ref = "Problema")))
-    })
+    @Operation(summary = "Busca uma cidade por Id",
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "400", description = "ID da cidade inválido",
+                            content = @Content(schema = @Schema(ref = "Problema"))),
+                    @ApiResponse(responseCode = "404", description = "Cidade não encontrada",
+                            content = @Content(schema = @Schema(ref = "Problema")))
+            })
     CidadeModel buscar(
             @Parameter(description = "ID de uma cidade", example = "1", required = true)
             Long cidadeId
@@ -37,7 +40,12 @@ public interface CidadeControllerOpenApi {
             CidadeInput cidadeInput
     );
 
-    @Operation(summary = "Atualiza uma cidade por Id")
+    @Operation(summary = "Atualiza uma cidade por Id",
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "404", description = "Cidade não encontrada",
+                            content = @Content(schema = @Schema(ref = "Problema")))
+            })
     CidadeModel atualizar(
             @Parameter(description = "ID de uma cidade", example = "1", required = true)
             Long cidadeId,
@@ -45,7 +53,14 @@ public interface CidadeControllerOpenApi {
             CidadeInput cidadeInput
     );
 
-    @Operation(summary = "Excluir uma cidade por Id")
+    @Operation(summary = "Excluir uma cidade por Id",
+            responses = {
+                    @ApiResponse(responseCode = "204"),
+                    @ApiResponse(responseCode = "400", description = "ID da cidade inválido",
+                            content = @Content(schema = @Schema(ref = "Problema"))),
+                    @ApiResponse(responseCode = "404", description = "Cidade não encontrada",
+                            content = @Content(schema = @Schema(ref = "Problema")))
+            })
     void deletar(
             @Parameter(description = "ID de uma cidade", example = "1", required = true)
             Long cidadeId
