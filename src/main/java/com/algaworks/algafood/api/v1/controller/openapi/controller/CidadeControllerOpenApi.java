@@ -1,30 +1,46 @@
 package com.algaworks.algafood.api.v1.controller.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.algaworks.algafood.api.v1.model.CidadeModel;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @SecurityRequirement(name = "security_auth")
+@Tag(name = "Cidades", description = "Gerencia as cidades")
 public interface CidadeControllerOpenApi {
+
+    @Operation(summary = "Busca uma cidade por Id")
     CidadeModel buscar(
-            @PathVariable Long cidadeId);
-
-    CollectionModel<CidadeModel> listar();
-
-    CidadeModel criar(
-            @RequestBody @Valid CidadeInput cidadeInput);
-
-    CidadeModel atualizar(
-            @PathVariable Long cidadeId,
-            @RequestBody @Valid CidadeInput cidadeInput
+            @Parameter(description = "ID de uma cidade", example = "1", required = true)
+            Long cidadeId
     );
 
+    @Operation(summary = "Lista todas as cidades")
+    CollectionModel<CidadeModel> listar();
+
+    @Operation(summary = "Cadastra uma cidade", description = "Cadastro de uma cidade necessita de um estado válido")
+    CidadeModel criar(
+            @RequestBody(description = "Representação de uma nova cidade", required = true)
+            CidadeInput cidadeInput
+    );
+
+    @Operation(summary = "Atualiza uma cidade por Id")
+    CidadeModel atualizar(
+            @Parameter(description = "ID de uma cidade", example = "1", required = true)
+            Long cidadeId,
+            @RequestBody(description = "Representação de uma cidade com dados atualizados", required = true)
+            CidadeInput cidadeInput
+    );
+
+    @Operation(summary = "Excluir uma cidade por Id")
     void deletar(
-            @PathVariable Long cidadeId);
+            @Parameter(description = "ID de uma cidade", example = "1", required = true)
+            Long cidadeId
+    );
 }
