@@ -1,5 +1,6 @@
 package com.algaworks.algafood.core.springdoc;
 
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 
 @Configuration
 @SecurityScheme(name = "security_auth",
@@ -41,5 +44,25 @@ public class SpringDocConfig {
                         .description("AlgaWorks")
                         .url("https://algaworks.com")
                 );
+    }
+
+    @Bean
+    public OpenApiCustomizer openApiCustomizer() {
+        return openApi -> openApi
+                .getPaths()
+                .values()
+                .stream()
+                .flatMap(pathItem -> pathItem.readOperations().stream())
+                .forEach(operation -> {
+                    ApiResponses responses = operation.getResponses();
+
+                    ApiResponse apiResponseNotFound = new ApiResponse().description("Recurso não encontrado");
+                    ApiResponse apiResponseInternalError = new ApiResponse().description("Erro interno no servidor");
+                    ApiResponse apiResponseWithoutRepresentation = new ApiResponse().description("Recurso não possui uma representação que poderia ser aceita pelo consumidor");
+
+                    responses.addApiResponse("404", apiResponseNotFound);
+                    responses.addApiResponse("406", apiResponseWithoutRepresentation);
+                    responses.addApiResponse("500", apiResponseInternalError);
+                });
     }
 }
