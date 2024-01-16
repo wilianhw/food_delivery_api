@@ -32,7 +32,7 @@ public interface CozinhaControllerOpenApi {
                             description = "Cozinha não encontrada",
                             content = @Content(schema = @Schema(ref = "Problema")))
             })
-    CozinhaModel buscar(Long cozinhaId);
+    CozinhaModel buscar(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long cozinhaId);
 
     @Operation(summary = "Cadastra uma nova cozinha")
     CozinhaModel criar(

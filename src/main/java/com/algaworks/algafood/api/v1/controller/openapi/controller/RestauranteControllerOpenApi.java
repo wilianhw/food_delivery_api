@@ -76,7 +76,7 @@ public interface RestauranteControllerOpenApi {
             })
     RestauranteModel cadastrar(RestauranteInput restauranteInput);
 
-    @Operation(summary = "Busca um restaurante por ID", responses = {
+    @Operation(summary = "Atualiza um restaurante por ID", responses = {
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "ID do restaurante inválido", content = {
                     @Content(schema = @Schema(ref = "Problema"))}),
@@ -128,7 +128,7 @@ public interface RestauranteControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> inativar(
-            @Parameter(description = "ID de um restaurante")
+            @Parameter(description = "ID de um restaurante", example = "1", required = true)
             Long restauranteId
     );
 
@@ -138,7 +138,7 @@ public interface RestauranteControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> abrir(
-            @Parameter(description = "ID de um restaurante")
+            @Parameter(description = "ID de um restaurante", example = "1", required = true)
             Long restauranteId
     );
 
@@ -148,7 +148,7 @@ public interface RestauranteControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> fechar(
-            @Parameter(description = "ID de um restaurante")
+            @Parameter(description = "ID de um restaurante", example = "1", required = true)
             Long restauranteId
     );
 }
