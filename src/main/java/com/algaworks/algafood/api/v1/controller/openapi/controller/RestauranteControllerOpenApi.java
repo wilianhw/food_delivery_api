@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @SecurityRequirement(name = "security_auth")
-@Tag(name = "Restaurante", description = "Gerencia restaurantes")
+@Tag(name = "Restaurantes", description = "Gerencia restaurantes")
 public interface RestauranteControllerOpenApi {
 
     @Operation(summary = "Lista restaurantes", parameters = {
