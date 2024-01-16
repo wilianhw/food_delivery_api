@@ -38,7 +38,8 @@ public interface EstatisticasControllerOpenApi {
                     }),
             }
     )
-    List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro);
+    List<VendaDiaria> consultarVendasDiarias(
+            @Parameter(hidden = true) VendaDiariaFilter filtro);
 
     @Operation(hidden = true)
     EstatisticaModel estatisticas();

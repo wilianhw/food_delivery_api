@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @SecurityRequirement(name = "security_auth")
-@Tag(name = "Usuarios", description = "Gerencia os usuários")
+@Tag(name = "Usuários", description = "Gerencia os usuários")
 public interface UsuarioControllerOpenApi {
 
     @Operation(summary = "Lista os usuários")

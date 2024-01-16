@@ -31,8 +31,8 @@ public interface RestauranteProdutoControllerOpenApi {
                             @Content(schema = @Schema(ref = "Problema"))})
             })
     ProdutoModel buscar(
-            @Parameter(description = "ID de um restaurante") Long restauranteId,
-            @Parameter(description = "ID de um produto") Long produtoId);
+            @Parameter(description = "ID de um restaurante", example = "1", required = true) Long restauranteId,
+            @Parameter(description = "ID de um produto", example = "1", required = true) Long produtoId);
 
     @Operation(summary = "Cadastra um produto de um restaurante", responses = {
             @ApiResponse(responseCode = "201", description = "Produto cadastrado"),
@@ -40,7 +40,7 @@ public interface RestauranteProdutoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ProdutoModel cadastrar(
-            @Parameter(description = "ID de um restaurante") Long restauranteId,
+            @Parameter(description = "ID de um restaurante", example = "1", required = true) Long restauranteId,
             @RequestBody(description = "Representação de um produto") ProdutoInput produtoInput);
 
 
@@ -50,7 +50,7 @@ public interface RestauranteProdutoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ProdutoModel atualizar(
-            @Parameter(description = "ID de um restaurante") Long restauranteId,
-            @Parameter(description = "ID de um produto") Long produtoId,
+            @Parameter(description = "ID de um restaurante", example = "1", required = true) Long restauranteId,
+            @Parameter(description = "ID de um produto", example = "1", required = true) Long produtoId,
             @RequestBody(description = "Representação de um produto") ProdutoInput produtoInput);
 }

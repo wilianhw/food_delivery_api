@@ -22,7 +22,9 @@ public interface UsuarioGrupoControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
-    CollectionModel<GrupoModel> listar(@Parameter(description = "ID de um usuário") Long usuarioId);
+    CollectionModel<GrupoModel> listar(
+            @Parameter(description = "ID de um usuário", example = "1", required = true)
+            Long usuarioId);
 
     @Operation(summary = "Associação de grupo com usuário", responses = {
             @ApiResponse(responseCode = "204", description = "Associação realizada com sucesso"),
@@ -30,8 +32,10 @@ public interface UsuarioGrupoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> associarGrupo(
-            @Parameter(description = "ID de um usuário") Long usuarioId,
-            @Parameter(description = "ID de um grupo") Long grupoId);
+            @Parameter(description = "ID de um usuário", example = "1", required = true)
+            Long usuarioId,
+            @Parameter(description = "ID de um grupo", example = "1", required = true)
+            Long grupoId);
 
     @Operation(summary = "Desassociação de grupo com usuário", responses = {
             @ApiResponse(responseCode = "204", description = "Desassociação realizada com sucesso"),
@@ -39,6 +43,8 @@ public interface UsuarioGrupoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> desassociarGrupo(
-            @Parameter(description = "ID de um usuário") Long usuarioId,
-            @Parameter(description = "ID de um grupo") Long grupoId);
+            @Parameter(description = "ID de um usuário", example = "1", required = true)
+            Long usuarioId,
+            @Parameter(description = "ID de um grupo", example = "1", required = true)
+            Long grupoId);
 }

@@ -24,7 +24,9 @@ public interface GrupoPermissaoControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
-    CollectionModel<PermissaoModel> listar(@Parameter(description = "ID de um grupo") Long grupoId);
+    CollectionModel<PermissaoModel> listar(
+            @Parameter(description = "ID de um grupo", example = "1", required = true)
+            Long grupoId);
 
 
     @Operation(summary = "Associação de permissão com grupo", responses = {
@@ -33,8 +35,10 @@ public interface GrupoPermissaoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> associar(
-            @Parameter(description = "ID de um grupo") Long grupoId,
-            @Parameter(description = "ID de uma permissão") Long permissaoId);
+            @Parameter(description = "ID de um grupo", example = "1", required = true)
+            Long grupoId,
+            @Parameter(description = "ID de uma permissão", example = "1", required = true)
+            Long permissaoId);
 
     @Operation(summary = "Desassociação de permissão com grupo", responses = {
             @ApiResponse(responseCode = "204", description = "Desassociação realizada com sucesso"),
@@ -42,6 +46,8 @@ public interface GrupoPermissaoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> desassociar(
-            @Parameter(description = "ID de um grupo") Long grupoId,
-            @Parameter(description = "ID de uma permissão") Long permissaoId);
+            @Parameter(description = "ID de um grupo", example = "1", required = true)
+            Long grupoId,
+            @Parameter(description = "ID de uma permissão", example = "1", required = true)
+            Long permissaoId);
 }
