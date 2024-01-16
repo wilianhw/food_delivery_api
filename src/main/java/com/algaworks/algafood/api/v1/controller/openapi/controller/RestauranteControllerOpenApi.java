@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.algaworks.algafood.api.v1.model.RestauranteBasicoModel;
 import com.algaworks.algafood.api.v1.model.RestauranteModel;
@@ -14,7 +12,6 @@ import com.algaworks.algafood.api.v1.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
 
 @SecurityRequirement(name = "security_auth")
 public interface RestauranteControllerOpenApi {
@@ -38,26 +35,26 @@ public interface RestauranteControllerOpenApi {
 
     List<Restaurante> consultarPorNomeTaxaFreteSDJ(String nome);
 
-    RestauranteModel buscar(@PathVariable Long restauranteId);
+    RestauranteModel buscar(Long restauranteId);
 
-    RestauranteModel cadastrar(@RequestBody @Valid RestauranteInput restauranteInput);
+    RestauranteModel cadastrar(RestauranteInput restauranteInput);
 
     RestauranteModel atualizar(
-            @PathVariable Long restauranteId,
-            @RequestBody @Valid RestauranteInput restauranteInput
+            Long restauranteId,
+            RestauranteInput restauranteInput
     );
 
-    void apagar(@PathVariable Long restauranteId);
+    void apagar(Long restauranteId);
 
-    ResponseEntity<Void> ativar(@PathVariable Long restauranteId);
+    ResponseEntity<Void> ativar(Long restauranteId);
 
-    void ativarMultiplos(@RequestBody List<Long> restauranteIds);
+    void ativarMultiplos(List<Long> restauranteIds);
 
-    void inativarMultiplos(@RequestBody List<Long> restauranteIds);
+    void inativarMultiplos(List<Long> restauranteIds);
 
-    ResponseEntity<Void> inativar(@PathVariable Long restauranteId);
+    ResponseEntity<Void> inativar(Long restauranteId);
 
-    ResponseEntity<Void> abrir(@PathVariable Long restauranteId);
+    ResponseEntity<Void> abrir(Long restauranteId);
 
-    ResponseEntity<Void> fechar(@PathVariable Long restauranteId);
+    ResponseEntity<Void> fechar(Long restauranteId);
 }
