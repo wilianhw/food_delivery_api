@@ -2,11 +2,11 @@ package com.algaworks.algafood.api.v1.controller.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.algaworks.algafood.api.v1.model.PermissaoModel;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +24,7 @@ public interface GrupoPermissaoControllerOpenApi {
             @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
-    CollectionModel<PermissaoModel> listar(@PathVariable Long grupoId);
+    CollectionModel<PermissaoModel> listar(@Parameter(description = "ID de um grupo") Long grupoId);
 
 
     @Operation(summary = "Associação de permissão com grupo", responses = {
@@ -33,8 +33,8 @@ public interface GrupoPermissaoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> associar(
-            @PathVariable Long grupoId,
-            @PathVariable Long permissaoId);
+            @Parameter(description = "ID de um grupo") Long grupoId,
+            @Parameter(description = "ID de uma permissão") Long permissaoId);
 
     @Operation(summary = "Desassociação de permissão com grupo", responses = {
             @ApiResponse(responseCode = "204", description = "Desassociação realizada com sucesso"),
@@ -42,6 +42,6 @@ public interface GrupoPermissaoControllerOpenApi {
                     @Content(schema = @Schema(ref = "Problema"))}),
     })
     ResponseEntity<Void> desassociar(
-            @PathVariable Long grupoId,
-            @PathVariable Long permissaoId);
+            @Parameter(description = "ID de um grupo") Long grupoId,
+            @Parameter(description = "ID de uma permissão") Long permissaoId);
 }
