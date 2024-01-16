@@ -1,32 +1,66 @@
 package com.algaworks.algafood.api.v1.controller.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.algaworks.algafood.api.v1.model.UsuarioModel;
 import com.algaworks.algafood.api.v1.model.input.SenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioInput;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @SecurityRequirement(name = "security_auth")
+@Tag(name = "Usuarios", description = "Gerencia os usuários")
 public interface UsuarioControllerOpenApi {
+
+    @Operation(summary = "Lista os usuários")
     CollectionModel<UsuarioModel> listar();
 
-    UsuarioModel buscar(@PathVariable Long usuarioId);
+    @Operation(summary = "Busca um usuário por ID", responses = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", description = "ID do usuário inválido", content = {
+                    @Content(schema = @Schema(ref = "Problema"))}),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = {
+                    @Content(schema = @Schema(ref = "Problema"))}),
+    })
+    UsuarioModel buscar(@Parameter(description = "ID de um usuário", example = "1", required = true) Long usuarioId);
 
-    UsuarioModel cadastrar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput);
+    @Operation(summary = "Cadastra um usuário", responses = {
+            @ApiResponse(responseCode = "201", description = "Usuário cadastrado"),
+    })
+    UsuarioModel cadastrar(@RequestBody(description = "Representação de um usuário") UsuarioComSenhaInput usuarioInput);
 
+    @Operation(summary = "Atualiza um usuário por ID", responses = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = {
+                    @Content(schema = @Schema(ref = "Problema"))})
+    })
     UsuarioModel atualizar(
-            @PathVariable Long usuarioId,
-            @RequestBody @Valid UsuarioInput usuarioInput);
+            @Parameter(description = "ID de um usuário", example = "1", required = true) Long usuarioId,
+            @RequestBody(description = "Representação de um usuário") UsuarioInput usuarioInput);
 
-    void deletar(@PathVariable Long usuarioId);
+    @Operation(summary = "Exclui um usuário por ID", responses = {
+            @ApiResponse(responseCode = "204"),
+            @ApiResponse(responseCode = "400", description = "ID do usuário inválido", content = {
+                    @Content(schema = @Schema(ref = "Problema"))}),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = {
+                    @Content(schema = @Schema(ref = "Problema"))}),
+    })
+    void deletar(@Parameter(description = "ID de um usuário", example = "1", required = true) Long usuarioId);
 
+    @Operation(summary = "Atualiza a senha de um usuário", responses = {
+            @ApiResponse(responseCode = "204", description = "Senha alterada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = {
+                    @Content(schema = @Schema(ref = "Problema"))})
+    })
     void atualizarSenha(
-            @PathVariable Long usuarioId,
-            @RequestBody @Valid SenhaInput senhaInput);
+            @Parameter(description = "ID de um usuário", example = "1", required = true) Long usuarioId,
+            @RequestBody(description = "Representação de um usuário") SenhaInput senhaInput);
 }
