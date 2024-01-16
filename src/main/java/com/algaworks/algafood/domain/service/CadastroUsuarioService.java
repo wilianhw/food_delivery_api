@@ -54,6 +54,7 @@ public class CadastroUsuarioService {
 
         try {
             usuarioRepository.deleteById(usuarioId);
+            usuarioRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new UsuarioEmUsoException(usuarioId);
         }
