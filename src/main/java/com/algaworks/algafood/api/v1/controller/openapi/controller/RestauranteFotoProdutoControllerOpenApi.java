@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.v1.controller.openapi.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
@@ -62,4 +64,13 @@ public interface RestauranteFotoProdutoControllerOpenApi {
             @Parameter(description = "ID de um restaurante", example = "1", required = true) Long restauranteId,
             @Parameter(description = "ID de um produto", example = "1", required = true) Long produtoId
     );
+
+    default void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+        boolean compativel = mediaTypesAceitas.stream()
+                .anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+
+        if (!compativel) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+        }
+    }
 }
