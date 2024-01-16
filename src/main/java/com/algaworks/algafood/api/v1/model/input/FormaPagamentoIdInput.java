@@ -9,6 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Setter
 public class FormaPagamentoIdInput {
 
-    @Schema(example = "ID de uma forma de pagamento")
+    @Schema(example = "1")
     private Long id;
 }
