@@ -8,8 +8,10 @@ import com.algaworks.algafood.api.v1.model.FormaPagamentoModel;
 import com.algaworks.algafood.api.v1.model.input.FormaPagamentoInput;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,12 +38,16 @@ public interface FormaPagamentoControllerOpenApi {
                     )
             }
     )
-    FormaPagamentoModel buscar(Long formaPagamentoId);
+    FormaPagamentoModel buscar(
+            @Parameter(description = "ID da forma de pagamento", example = "1", required = true)
+            Long formaPagamentoId);
 
     @Operation(summary = "Cria uma nova forma de pagamento")
-    FormaPagamentoModel salvar(FormaPagamentoInput formaPagamentoInput);
+    FormaPagamentoModel salvar(
+            @RequestBody(description = "Representação da forma de pagamento")
+            FormaPagamentoInput formaPagamentoInput);
 
-    @Operation(summary = "Busca uma forma de pagamento por ID",
+    @Operation(summary = "Atualiza uma forma de pagamento por ID",
             responses = {
                     @ApiResponse(responseCode = "200"),
                     @ApiResponse(
@@ -52,10 +58,12 @@ public interface FormaPagamentoControllerOpenApi {
             }
     )
     FormaPagamentoModel atualizar(
+            @Parameter(description = "ID da forma de pagamento", example = "1", required = true)
             Long formaPagamentoId,
+            @RequestBody(description = "Representação da forma de pagamento")
             FormaPagamentoInput formaPagamentoInput);
 
-    @Operation(summary = "Busca uma forma de pagamento por ID",
+    @Operation(summary = "Exclui uma forma de pagamento por ID",
             responses = {
                     @ApiResponse(responseCode = "204"),
                     @ApiResponse(
@@ -65,5 +73,5 @@ public interface FormaPagamentoControllerOpenApi {
                     )
             }
     )
-    void deletar(Long formaPagamentoId);
+    void deletar(@Parameter(description = "ID da forma de pagamento", example = "1", required = true) Long formaPagamentoId);
 }
