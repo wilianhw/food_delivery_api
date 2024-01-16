@@ -130,7 +130,7 @@ public @interface CheckSecurity {
         }
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and " +
-                "@algaSecurity.usuarioAuthenticadoIgual(#filtro.clienteId) or " +
+                "@algaSecurity.usuarioAuthenticadoIgual(#usuarioId) or " +
                 "hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
         @Retention(RUNTIME)
         @Target(METHOD)
