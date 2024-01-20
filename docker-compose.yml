@@ -16,14 +16,27 @@ services:
     networks:
       - algafood-network
 
+  algafood-redis:
+    image: redis:6.2.1-alpine
+    networks:
+      - algafood-network
+
   algafood-api:
     image: algafood-api
     command: [ "/wait-for-it.sh", "algafood-postgres:5432", "-t", "30", "--", "java", "-jar", "api.jar" ]
     environment:
       DB_HOST: algafood-postgres
-    ports:
-      - 8080:8080
     networks:
       - algafood-network
     depends_on:
       - algafood-postgres
+
+  algafood-proxy:
+    build: ./nginx
+    image: algafood-proxy
+    ports:
+      - "8080:80"
+    networks:
+      - algafood-network
+    depends_on:
+      - algafood-api
